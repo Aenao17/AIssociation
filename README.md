@@ -116,6 +116,13 @@ dependencies before running `npm run test:e2e`.
   `vercel.json` provides the client-side routing fallback.
 - PostgreSQL hosting remains to be selected.
 
-Before connecting hosted applications, set `VITE_API_BASE_URL` to the Render
-backend origin and configure backend CORS for the actual frontend origin.
-No hosted services have been provisioned or deployed.
+The frontend's Vercel environment variable is
+`VITE_API_BASE_URL=https://aissociation.onrender.com`.
+
+Backend CORS allows `https://aissociation.vercel.app` and
+`http://localhost:5173` for `/api/**` and read-only health requests at
+`/actuator/health`. Override the complete origin list with the Render environment
+variable `CORS_ALLOWED_ORIGINS` (comma-separated origins, no trailing slashes).
+For production-only access, set it to `https://aissociation.vercel.app`.
+Preview deployments need their own explicitly allowed origin. Cookie credentials
+are not enabled; the API allows the `Authorization` and `Content-Type` headers.
