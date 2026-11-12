@@ -1,0 +1,42 @@
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+.github-cli/
+*.local
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Local tooling and hosting metadata
+.maven/
+.npm-cache/
+.ionic/
+.vercel/
+
+# Java / Maven
+**/target/
+*.class
+
+# Node / Ionic / Vite
+**/node_modules/
+**/dist/
+**/coverage/
+*.tsbuildinfo
+**/.vite/
+**/test-results/
+**/playwright-report/
+**/blob-report/
+**/playwright/.cache/
+
+# Logs and operating system files
+*.log
+.DS_Store
+
+# Other IDE metadata
+.idea/
+*.iml

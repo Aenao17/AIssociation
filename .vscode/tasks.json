@@ -1,0 +1,49 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Backend: run",
+      "type": "shell",
+      "command": "./mvnw",
+      "windows": {
+        "command": ".\\mvnw.cmd"
+      },
+      "args": [
+        "-Dmaven.repo.local=${workspaceFolder}/../.maven/repository",
+        "spring-boot:run"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/Backend",
+        "env": {
+          "MAVEN_USER_HOME": "${workspaceFolder}/../.maven"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Frontend: run",
+      "type": "shell",
+      "command": "npm",
+      "args": [
+        "run",
+        "dev"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/Frontend"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Database: start",
+      "type": "shell",
+      "command": "docker",
+      "args": [
+        "compose",
+        "up",
+        "-d",
+        "db"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}
