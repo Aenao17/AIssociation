@@ -38,7 +38,7 @@
 .identity-card input {
   display: block;
   width: 100%;
-  min-height: 48px;
+  min-height: 52px;
   margin-top: var(--space-2);
   border: 1px solid var(--control-border);
   border-radius: var(--radius-control);
@@ -46,6 +46,7 @@
   background: var(--color-surface);
   color: var(--color-text);
   font: 400 16px/1.2 var(--font-sans);
+  transition: border-color 140ms ease;
 }
 .identity-card input:focus-visible,
 .identity-card button:focus-visible,
@@ -58,12 +59,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
+  min-height: 48px;
   font: 700 16px/1.2 var(--font-sans);
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-control);
   cursor: pointer;
   text-decoration: none;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease;
 }
 .identity-primary {
   border: 1px solid var(--brand-accent);
@@ -137,9 +141,10 @@
   margin-top: var(--space-6);
 }
 .identity-empty {
-  padding: var(--space-4);
-  background: var(--color-bg);
-  border-radius: var(--radius-control);
+  padding: var(--space-4) 0;
+  background: transparent;
+  border-block: 1px solid var(--color-border);
+  border-radius: 0;
 }
 .identity-card h2 {
   font: 700 22px/1.3 var(--font-sans);
@@ -171,7 +176,7 @@
 .platform-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  gap: var(--space-6);
+  gap: var(--space-8);
   max-width: var(--content-width);
   margin: auto;
   align-items: start;
@@ -210,5 +215,52 @@
   }
   .identity-landing h1 {
     font-size: 40px;
+  }
+}
+
+/* A restrained public entry: open space, one primary action, no decorative panel. */
+.identity-home .identity-landing {
+  max-width: 880px;
+  padding: var(--space-16) var(--space-6);
+  border: 0;
+  background: transparent;
+  text-align: center;
+}
+.identity-home .identity-eyebrow {
+  margin-bottom: var(--space-6);
+}
+.identity-home .identity-intro {
+  max-width: 480px;
+  margin: var(--space-6) auto 0;
+  font-size: 18px;
+}
+.identity-home .identity-actions {
+  justify-content: center;
+  margin-top: var(--space-8);
+  gap: var(--space-6);
+}
+.identity-text-action {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  font-weight: 700;
+}
+.identity-card h1,
+.identity-intro {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 480px) {
+  .identity-home .identity-landing {
+    padding: var(--space-12) 0;
+  }
+  .identity-home .identity-intro {
+    font-size: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .identity-card input,
+  .identity-primary,
+  .identity-secondary {
+    transition: none;
   }
 }

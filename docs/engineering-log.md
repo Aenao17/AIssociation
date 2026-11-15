@@ -56,3 +56,12 @@
   social-card dimensions; visual desktop/390px mobile and keyboard-focus checks.
 - Limits: existing backend behavior is unchanged; dark UI surfaces remain opt-in.
   Hosting changes await merge/deployment; use the checked-in runtime assets for production builds.
+
+## 16 November 2026 — restrained layout refinement
+
+- Human direction: clean, professional product design with restrained layout.
+- Codex-assisted changes: open centered homepage, clearer action hierarchy,
+  quieter empty states, consistent spacing/controls and reduced-motion support.
+  Approved logo, palette and typography retained; guidance added for teammates.
+- Verification: frontend lint/type checks and production build, plus visual
+  desktop and 390px mobile review. No backend changes.

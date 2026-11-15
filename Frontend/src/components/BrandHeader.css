@@ -5,6 +5,8 @@
 }
 .brand-header-wide {
   max-width: var(--content-width);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-6);
 }
 .brand-home-link {
   display: inline-flex;
