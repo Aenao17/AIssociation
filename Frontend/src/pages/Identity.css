@@ -35,7 +35,8 @@
   font-weight: 700;
   margin: var(--space-4) 0;
 }
-.identity-card input {
+.identity-card input,
+.identity-card select {
   display: block;
   width: 100%;
   min-height: 52px;
@@ -49,6 +50,7 @@
   transition: border-color 140ms ease;
 }
 .identity-card input:focus-visible,
+.identity-card select:focus-visible,
 .identity-card button:focus-visible,
 .identity-shell a:focus-visible {
   outline: 3px solid var(--brand-focus);

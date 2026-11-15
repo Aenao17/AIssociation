@@ -65,3 +65,21 @@
   Approved logo, palette and typography retained; guidance added for teammates.
 - Verification: frontend lint/type checks and production build, plus visual
   desktop and 390px mobile review. No backend changes.
+
+## 16 November 2026 — association workspaces and membership administration
+
+- Owner: Gabriel; Codex-assisted implementation of the agreed owned workflow.
+- Changes: workspace entry, admin-only membership add/role-change/removal,
+  confirmation, refreshed identity/permissions, and reusable AssociationAccess.
+- Human requirements: every member can enter their association, association
+  administrators manage only their own membership, and the last admin remains.
+- Engineering decision: serialize membership writes with a parent-association
+  row lock and check current actor permissions after acquiring that lock.
+- Verification: Maven verify (31 tests), frontend tests (20), lint/type checks
+  and production build. Browser checks covered admin add/member entry and mobile
+  controls. PostgreSQL API checks covered cross-association denial, private roster,
+  immediate access revocation and simultaneous self-demotions (200 + 409, one
+  administrator retained). Temporary local fixtures were removed afterward.
+- Handoff: docs/contracts/association-workspaces.md. No new migration or hosted
+  data changes. Project/task/chat owners must apply both membership and their
+  own finer-grained rules. Playwright suite not run.

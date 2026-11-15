@@ -9,7 +9,7 @@ UBB student association event management application — Team Stucanii.
 - `Frontend/`: Ionic React, TypeScript, and Vite.
 - `compose.yaml`: local PostgreSQL and an optional containerized backend.
 
-The account slice provides registration, bearer-session login/logout, and current-user membership information. Event/project workflows and membership administration are not implemented yet. See [the identity contract](docs/contracts/identity-and-current-user.md).
+The application provides accounts, platform association creation, association workspaces and membership administration. Event/project workflows remain separate work packages. See [the identity contract](docs/contracts/identity-and-current-user.md).
 
 ## Prerequisites
 
@@ -134,8 +134,7 @@ current server session.
 
 Flyway applies the initial identity/association schema on backend startup.
 Coordinate subsequent migration numbers with Raul and do not modify an applied
-migration. No default users or passwords are seeded. The workspace/admin slice
-will add association bootstrap and membership management.
+migration. No default users or passwords are seeded. Platform administrators create associations and appoint their initial administrators through the protected interface; association administrators manage membership from their workspace.
 
 API details and teammate handoffs: [identity/current-user contract](docs/contracts/identity-and-current-user.md).
 Authentication rationale: [ADR 0001](docs/decisions/0001-bearer-sessions.md).
@@ -160,3 +159,13 @@ Use the shared `BrandHeader`, `src/theme/brand.css` tokens, and semantic theme
 variables for new screens. Run `npm run brand:sync` from `Frontend/` after editing
 the source kit; commit synchronized assets with the source changes. Production
 builds use the checked-in frontend copies and require no branding tools.
+
+## Association workspaces
+
+From `/account`, choose **Open workspace** beside a membership. Members can enter
+their association; administrators can add existing accounts by email, change
+MEMBER/ADMIN roles and remove memberships. The last administrator is protected.
+
+Backend integration: [workspace/member API and shared permission checks](docs/contracts/association-workspaces.md).
+Project, task and chat modules must combine association membership checks with
+their own project/reporting/audience rules.

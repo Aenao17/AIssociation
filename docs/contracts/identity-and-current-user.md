@@ -2,9 +2,9 @@
 
 Owner: Gabriel. First account slice, 15 November 2026.
 
-This contract provides shared identity and membership references. Project roles,
-reporting hierarchy, workspace/admin screens and membership mutation endpoints
-are separate work packages. A participant account is not association membership.
+This contract provides shared identity and membership references. Project roles and
+reporting hierarchy are separate work packages. Workspace/member endpoints are
+documented in [the association contract](association-workspaces.md). A participant account is not association membership.
 
 ## Endpoints
 
@@ -138,7 +138,7 @@ The request helper attaches the current bearer token and clears a session on
 401. Public requests use `apiRequest` without a token. Use client-side navigation
 rather than a full reload when retaining an in-memory session matters.
 Routes: `/register`, `/login`, `/account`; public placeholder at `/home`.
-Memberships are displayed, but workspace entry/admin screens are not implemented.
+Memberships link to `/workspaces/{slug}`; see the association contract for workspace entry and membership administration.
 
 ## Verification
 

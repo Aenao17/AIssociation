@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +47,11 @@ public class IdentityService {
         validatePasswordBytes(request.password());
         IdentityRepository.Account user = new IdentityRepository.Account(UUID.randomUUID(), request.displayName(),
                 request.email(), encoder.encode(request.password()), clock.instant());
-        repository.insertAccount(user);
+        try {
+            repository.insertAccount(user);
+        } catch (DuplicateKeyException ex) {
+            throw new ApiException(HttpStatus.CONFLICT, "EMAIL_EXISTS", "An account with this email already exists.");
+        }
         return user.view();
     }
 
