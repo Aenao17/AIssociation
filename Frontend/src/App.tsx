@@ -2,6 +2,9 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Navigate, Route } from 'react-router-dom';
 
+import { AuthProvider } from './auth/AuthProvider';
+import AccountPage from './pages/AccountPage';
+import AuthPage from './pages/AuthPage';
 import Home from './pages/Home';
 
 /* Core CSS required for Ionic components to work properly */
@@ -37,14 +40,19 @@ import './theme/variables.css';
 setupIonicReact();
 
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/home" element={<Home />} />
-        <Route path="/" element={<Navigate to="/home" replace />} />
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
+  <AuthProvider>
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<AuthPage mode="login" key="login" />} />
+          <Route path="/register" element={<AuthPage mode="register" key="register" />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/" element={<Navigate to="/home" replace />} />
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  </AuthProvider>
 );
 
 export default App;

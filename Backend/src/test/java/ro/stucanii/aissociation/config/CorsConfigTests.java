@@ -1,6 +1,7 @@
 package ro.stucanii.aissociation.config;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ class CorsConfigTests {
 
     private MockMvc mvcFor(String origins) {
         return MockMvcBuilders.standaloneSetup(new ProbeController())
-                .addFilters(new CorsConfig(origins).corsFilter())
+                .addFilters(new CorsFilter(new CorsConfig(origins).corsConfigurationSource()))
                 .build();
     }
 
