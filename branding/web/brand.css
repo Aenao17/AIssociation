@@ -1,0 +1,53 @@
+/* AIssociation website tokens v1.0. Import before application overrides. */
+:root {
+  --brand-ink: #171714;
+  --brand-paper: #faf5eb;
+  --brand-white: #ffffff;
+  --brand-muted: #5e5e56;
+  --brand-line: #d8d3c8;
+  --brand-accent: #a94530;
+  --brand-accent-hover: #873525;
+  --brand-focus: #285ac7;
+  --brand-success: #286247;
+  --brand-error: #a32e2e;
+  --color-bg: var(--brand-paper);
+  --color-surface: var(--brand-white);
+  --color-text: var(--brand-ink);
+  --color-muted: var(--brand-muted);
+  --color-border: var(--brand-line);
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-editorial: Georgia, 'Times New Roman', serif;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px;
+  --radius-control: 8px; --radius-card: 16px;
+  --content-width: 1200px;
+  --ion-color-primary: #a94530;
+  --ion-color-primary-rgb: 169,69,48;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255,255,255;
+  --ion-color-primary-shade: #953d2a;
+  --ion-color-primary-tint: #b25845;
+  --ion-font-family: var(--font-sans);
+  --ion-background-color: var(--brand-paper);
+  --ion-text-color: var(--brand-ink);
+}
+/* Apply to a theme container only after checking all existing components. */
+[data-brand-theme='dark'] {
+  --color-bg: #171714; --color-surface: #23231f;
+  --color-text: #faf5eb; --color-muted: #c5c0b5; --color-border: #77776c;
+  --brand-focus: #a8c1ff;
+}
+.brand-logo { display:block; width:clamp(220px,24vw,320px); height:auto; }
+.brand-button {
+  min-height:44px; padding:12px 20px; border:1px solid transparent;
+  border-radius:var(--radius-control); background:var(--brand-accent);
+  color:#fff; font:600 16px/1.2 var(--font-sans); cursor:pointer;
+}
+.brand-button:hover { background:var(--brand-accent-hover); }
+.brand-button:focus-visible, .brand-link:focus-visible {
+  outline:3px solid var(--brand-focus); outline-offset:3px;
+}
+.brand-link { color:var(--brand-accent); text-decoration:underline; text-underline-offset:3px; }
+@media(prefers-reduced-motion:reduce) {
+  .brand-button,.brand-link { transition:none; }
+}

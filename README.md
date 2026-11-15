@@ -150,3 +150,13 @@ See [setup and API contract](docs/contracts/platform-association-admin.md).
 
 No demo associations or administrator passwords are seeded. The interface creates
 ordinary records using the protected API.
+
+## Shared branding
+
+The versioned guide and source assets are in [branding/](branding/README.md).
+Open [the HTML guide](branding/brand-guide.html) or [PDF](branding/brand-guide.pdf).
+
+Use the shared `BrandHeader`, `src/theme/brand.css` tokens, and semantic theme
+variables for new screens. Run `npm run brand:sync` from `Frontend/` after editing
+the source kit; commit synchronized assets with the source changes. Production
+builds use the checked-in frontend copies and require no branding tools.

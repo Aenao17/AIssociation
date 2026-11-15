@@ -1,0 +1,17 @@
+import {createRequire} from 'node:module';
+import path from 'node:path';import{fileURLToPath}from'node:url';
+const require=createRequire(import.meta.url);
+const{chromium}=require('playwright');
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_EXECUTABLE_PATH ? {executablePath:process.env.CHROMIUM_EXECUTABLE_PATH} : {})});
+const page=await browser.newPage({viewport:{width:1200,height:900},deviceScaleFactor:1});
+await page.goto(`file://${root}/brand-guide.html`);await page.evaluate(()=>document.fonts.ready);
+console.log(await page.evaluate(()=>({images:[...document.images].every(i=>i.complete&&i.naturalWidth>0),pages:document.querySelectorAll('.page').length})));
+await page.emulateMedia({media:'print'});
+console.log(await page.evaluate(()=>[...document.querySelectorAll('.page')].map((el,i)=>({page:i+1,height:el.clientHeight,scroll:el.scrollHeight,footerTop:el.querySelector('.foot').getBoundingClientRect().top-el.getBoundingClientRect().top,lastContentBottom:el.children[el.children.length-2].getBoundingClientRect().bottom-el.getBoundingClientRect().top}))));
+await page.pdf({path:`${root}/brand-guide.pdf`,preferCSSPageSize:true,printBackground:true});
+await page.emulateMedia({media:'screen'});
+await page.locator('.page').first().screenshot({path:`${root}/source/guide-cover.png`});
+await page.setViewportSize({width:390,height:844});
+console.log('Mobile horizontal overflow:',await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth));
+await browser.close();

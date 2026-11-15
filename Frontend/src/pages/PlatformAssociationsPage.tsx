@@ -5,6 +5,7 @@ import { Link, Navigate } from 'react-router-dom';
 
 import { ApiError } from '../auth/client';
 import { useAuth } from '../auth/useAuth';
+import BrandHeader from '../components/BrandHeader';
 import './Identity.css';
 
 interface Association {
@@ -90,9 +91,7 @@ export default function PlatformAssociationsPage(): ReactElement {
     <IonPage>
       <IonContent>
         <main className="identity-shell">
-          <Link className="identity-brand" to="/account">
-            AIssociation<span>.</span>
-          </Link>
+          <BrandHeader wide />
           {!user.platformAdmin ? (
             <section className="identity-card">
               <h1>Platform administration</h1>

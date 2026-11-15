@@ -40,3 +40,20 @@
   local records and test allowlist removed after verification.
 - Exact Codex model identifier: record from session metadata when completing
   the GenAI report. No hosted operator privileges have been configured.
+
+## 16 November 2026 — shared brand kit and product styling
+
+- Owner: Gabriel; Codex-assisted implementation using the supplied branding kit.
+- Human direction: version the branding guide for the team and apply it to the
+  current product. Existing supplied SVG/PNG artwork was reused, not regenerated.
+- Changes: responsive shared logo header; warm paper/ink/terracotta tokens;
+  Arial interface/Georgia landing typography; consistent controls/focus states;
+  branded favicon/app manifest/social metadata; repeatable local asset sync.
+- Shared kit: HTML/PDF guide, approved reference source, vector/raster exports,
+  web assets and optional export utilities. Removed machine-specific tool imports.
+- Verification: frontend lint/type checks, 12 unit tests and production build;
+  copied logo/token integrity, manifest/icon paths/dimensions, SVG parsing and
+  social-card dimensions; visual desktop/390px mobile and keyboard-focus checks.
+- Limits: existing backend behavior is unchanged; dark UI surfaces remain opt-in.
+  The optional asset-regeneration/PDF tools were not run. Hosting changes await
+  merge/deployment; use the checked-in runtime assets for production builds.

@@ -33,7 +33,8 @@ import '@ionic/react/css/display.css';
 
 /* import '@ionic/react/css/palettes/dark.always.css'; */
 /* import '@ionic/react/css/palettes/dark.class.css'; */
-import '@ionic/react/css/palettes/dark.system.css';
+// Brand v1 uses an explicit light palette; dark surfaces are opt-in.
+import './theme/brand.css';
 
 /* Theme variables */
 import './theme/variables.css';

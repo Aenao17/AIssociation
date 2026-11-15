@@ -1,0 +1,35 @@
+.brand-header {
+  max-width: 480px;
+  margin: 0 auto var(--space-6);
+  padding: var(--space-4);
+}
+.brand-header-wide {
+  max-width: var(--content-width);
+}
+.brand-home-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.brand-home-link picture {
+  display: block;
+}
+.brand-home-link img {
+  display: block;
+  width: 280px;
+  height: auto;
+}
+
+.brand-home-link:focus-visible {
+  outline: 3px solid var(--brand-focus);
+  outline-offset: 3px;
+}
+@media (max-width: 480px) {
+  .brand-header {
+    padding: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+  .brand-home-link img {
+    width: 42px;
+  }
+}

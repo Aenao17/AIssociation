@@ -1,2 +1,16 @@
-/* For information on how to create your own theme, please refer to:
-http://ionicframework.com/docs/theming/ */
+/* Product-wide semantic extensions to the supplied branding/web/brand.css tokens. */
+:root {
+  color-scheme: light;
+  --control-border: #7b786d;
+  --status-error-bg: #fff0ed;
+  --status-success-bg: #edf5ef;
+  --ion-background-color: var(--color-bg);
+  --ion-text-color: var(--color-text);
+  --ion-item-background: var(--color-surface);
+  --ion-card-background: var(--color-surface);
+  --ion-toolbar-background: var(--color-surface);
+  --ion-toolbar-color: var(--color-text);
+  --ion-border-color: var(--color-border);
+  --ion-color-success: var(--brand-success);
+  --ion-color-danger: var(--brand-error);
+}
