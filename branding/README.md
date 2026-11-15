@@ -50,3 +50,12 @@ headings; no third-party font downloads are required.
 Preserve the supplied vector artwork and aspect ratio. Keep the approved source
 for design review. The frontend asset-sync script copies existing files; it does
 not regenerate the logo or guide.
+
+## Product design direction
+
+Keep layouts restrained and consistent: generous spacing, clear type hierarchy,
+subtle separators and one primary action per context. Public entry pages can use
+open layouts; forms and administration use purposeful surfaces. Avoid decorative
+panels, heavy shadows, unnecessary badges and invented navigation. Retain the
+approved logo, palette and typography. Preserve visible keyboard focus, readable
+contrast, minimum 44px targets, responsive spacing and reduced-motion support.

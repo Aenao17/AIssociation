@@ -10,7 +10,7 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonContent>
-        <main className="identity-shell">
+        <main className="identity-shell identity-home">
           <BrandHeader wide />
           <section className="identity-card identity-landing">
             <p className="identity-eyebrow">For student communities</p>
@@ -19,9 +19,7 @@ const Home: React.FC = () => {
               <br />
               One account.
             </h1>
-            <p className="identity-intro">
-              Create your account to get started. Event discovery and association workspaces are coming next.
-            </p>
+            <p className="identity-intro">One place for your account and student association memberships.</p>
             <div className="identity-actions">
               {user ? (
                 <Link className="identity-primary" to="/account">
@@ -32,7 +30,7 @@ const Home: React.FC = () => {
                   <Link className="identity-primary" to="/register">
                     Create an account
                   </Link>
-                  <Link className="identity-secondary" to="/login">
+                  <Link className="identity-text-action" to="/login">
                     Sign in
                   </Link>
                 </>
