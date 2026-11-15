@@ -5,6 +5,7 @@ import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 import { ApiError } from '../auth/client';
 import { useAuth } from '../auth/useAuth';
+import BrandHeader from '../components/BrandHeader';
 import './Identity.css';
 
 export default function AuthPage({ mode }: { mode: 'login' | 'register' }): ReactElement {
@@ -49,9 +50,7 @@ export default function AuthPage({ mode }: { mode: 'login' | 'register' }): Reac
     <IonPage>
       <IonContent>
         <main className="identity-shell">
-          <Link className="identity-brand" to="/home">
-            AIssociation<span>.</span>
-          </Link>
+          <BrandHeader />
           <section className="identity-card" aria-labelledby={`${mode}-heading`}>
             <p className="identity-eyebrow">Student associations, connected</p>
             <h1 id={`${mode}-heading`}>{registering ? 'Create your account' : 'Welcome back'}</h1>

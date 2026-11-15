@@ -4,6 +4,7 @@ import type { ReactElement } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
 import { useAuth } from '../auth/useAuth';
+import BrandHeader from '../components/BrandHeader';
 import './Identity.css';
 
 export default function AccountPage(): ReactElement {
@@ -28,9 +29,7 @@ export default function AccountPage(): ReactElement {
     <IonPage>
       <IonContent>
         <main className="identity-shell">
-          <Link className="identity-brand" to="/home">
-            AIssociation<span>.</span>
-          </Link>
+          <BrandHeader />
           <section className="identity-card identity-account" aria-labelledby="account-heading">
             <p className="identity-eyebrow">Your account</p>
             <h1 id="account-heading">Hello, {user.displayName}</h1>

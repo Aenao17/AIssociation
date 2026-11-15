@@ -2,6 +2,7 @@ import { IonContent, IonPage } from '@ionic/react';
 import { Link } from 'react-router-dom';
 
 import { useAuth } from '../auth/useAuth';
+import BrandHeader from '../components/BrandHeader';
 import './Identity.css';
 
 const Home: React.FC = () => {
@@ -10,9 +11,7 @@ const Home: React.FC = () => {
     <IonPage>
       <IonContent>
         <main className="identity-shell">
-          <div className="identity-brand">
-            AIssociation<span>.</span>
-          </div>
+          <BrandHeader wide />
           <section className="identity-card identity-landing">
             <p className="identity-eyebrow">For student communities</p>
             <h1>

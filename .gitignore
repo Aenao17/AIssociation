@@ -40,3 +40,6 @@
 # Other IDE metadata
 .idea/
 *.iml
+
+# Expanded brand kit is versioned in branding/; keep the original archive local.
+/AIssociation-brand-kit-v1.zip
