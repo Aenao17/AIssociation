@@ -6,6 +6,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../auth/useAuth';
 import BrandHeader from '../components/BrandHeader';
 import './Identity.css';
+import './Workspace.css';
 
 export default function AccountPage(): ReactElement {
   const { user, logout, refreshUser } = useAuth();
@@ -52,6 +53,12 @@ export default function AccountPage(): ReactElement {
                   <li key={membership.associationId}>
                     <strong>{membership.associationName}</strong>
                     <span>{membership.role === 'ADMIN' ? 'Administrator' : 'Member'}</span>
+                    <Link
+                      className="workspace-entry"
+                      to={`/workspaces/${encodeURIComponent(membership.associationSlug)}`}
+                    >
+                      Open workspace
+                    </Link>
                   </li>
                 ))}
               </ul>

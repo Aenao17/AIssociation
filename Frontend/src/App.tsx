@@ -7,6 +7,7 @@ import AccountPage from './pages/AccountPage';
 import AuthPage from './pages/AuthPage';
 import Home from './pages/Home';
 import PlatformAssociationsPage from './pages/PlatformAssociationsPage';
+import WorkspacePage from './pages/WorkspacePage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -50,6 +51,7 @@ const App: React.FC = () => (
           <Route path="/login" element={<AuthPage mode="login" key="login" />} />
           <Route path="/register" element={<AuthPage mode="register" key="register" />} />
           <Route path="/account" element={<AccountPage />} />
+          <Route path="/workspaces/:slug" element={<WorkspacePage />} />
           <Route path="/admin/associations" element={<PlatformAssociationsPage />} />
           <Route path="/" element={<Navigate to="/home" replace />} />
         </IonRouterOutlet>

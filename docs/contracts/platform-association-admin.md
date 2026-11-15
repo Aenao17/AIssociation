@@ -64,6 +64,6 @@ invalid session, 403 `PLATFORM_ADMIN_REQUIRED`, 404 `INITIAL_ADMIN_NOT_FOUND`,
 preserves input on rejection and supports refreshing the directory.
 
 No schema migration is needed: this feature uses the shared V1 identity tables.
-Association editing/deletion, member administration, and workspace navigation are
-separate slices. Association creation itself does not provision external domains
+Association editing/deletion is outside this slice. Member administration and
+workspace navigation are documented in [the association contract](association-workspaces.md). Association creation itself does not provision external domains
 or third-party resources.
