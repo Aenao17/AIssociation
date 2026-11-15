@@ -10,6 +10,7 @@ export interface CurrentUser {
   displayName: string;
   email: string;
   memberships: Membership[];
+  platformAdmin: boolean;
 }
 
 export interface LoginResponse {

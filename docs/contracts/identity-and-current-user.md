@@ -53,6 +53,7 @@ Send `Authorization: Bearer <accessToken>` on protected calls. Current-user resp
   "id":"uuid",
   "displayName":"Alex",
   "email":"alex@example.com",
+  "platformAdmin": false,
   "memberships":[
     {"associationId":"uuid","associationName":"Example association","associationSlug":"example","role":"MEMBER"}
   ]
@@ -61,7 +62,9 @@ Send `Authorization: Bearer <accessToken>` on protected calls. Current-user resp
 
 An unassigned participant receives `memberships: []`. Association roles are
 `MEMBER` and `ADMIN`; project responsibilities are not account-wide roles.
-Memberships are read from the database on each `/api/me` call. Another user's
+The additive `platformAdmin` boolean reports operator-configured platform access;
+it is separate from association membership roles and defaults to false. See
+[platform administration](platform-association-admin.md). Memberships are read from the database on each `/api/me` call. Another user's
 memberships are never included. A membership list is UI information, not proof
 of permission for future backend operations: recheck the current association
 and project permissions in every endpoint.

@@ -35,6 +35,13 @@ export default function AccountPage(): ReactElement {
             <p className="identity-eyebrow">Your account</p>
             <h1 id="account-heading">Hello, {user.displayName}</h1>
             <p className="identity-intro">{user.email}</p>
+            {user.platformAdmin && (
+              <p>
+                <Link className="identity-admin-link" to="/admin/associations">
+                  Platform administration →
+                </Link>
+              </p>
+            )}
             <h2>Association memberships</h2>
             {user.memberships.length === 0 ? (
               <p className="identity-empty">

@@ -19,6 +19,7 @@ services:
     build: ./Backend
     environment:
       PORT: 8080
+      PLATFORM_ADMIN_USER_IDS: ${PLATFORM_ADMIN_USER_IDS:-}
       DB_URL: jdbc:postgresql://db:5432/aissociation
       DB_USER: aissociation
       DB_PASSWORD: ${DB_PASSWORD:-aissociation_local}

@@ -23,3 +23,20 @@
   manual automation of the local application.
 - Follow-up: coordinate the V1/shared IDs with Raul and the authentication helper
   with other workflow owners before they implement dependent features.
+
+## 16 November 2026 — platform association creation
+
+- Owner: Gabriel; implementation prepared with Codex assistance for review.
+- Purpose: platform-admin interface and API to create live association records
+  and assign an existing account as initial association administrator.
+- Human direction: use an interface/API rather than seeding demo organizations
+  in migrations; keep platform and association administration separate.
+- Implementation choice: server-configured trusted UUID allowlist, empty by
+  default, plus an additive current-user platformAdmin flag. No public
+  privilege assignment or default administrator credentials.
+- Verification: Maven verify (22 tests), frontend tests (12), build/lint, Docker
+  startup, browser creation against PostgreSQL, duplicate/missing-account errors,
+  and denial of platform operations to an association administrator. Temporary
+  local records and test allowlist removed after verification.
+- Exact Codex model identifier: record from session metadata when completing
+  the GenAI report. No hosted operator privileges have been configured.

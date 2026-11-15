@@ -30,7 +30,7 @@ public final class AuthDtos {
     public record UserView(UUID id, String displayName, String email, Instant createdAt) {}
     public record LoginResponse(String accessToken, String tokenType, Instant expiresAt, UserView user) {}
     public record MembershipView(UUID associationId, String associationName, String associationSlug, String role) {}
-    public record CurrentUser(UUID id, String displayName, String email, List<MembershipView> memberships) {}
+    public record CurrentUser(UUID id, String displayName, String email, List<MembershipView> memberships, boolean platformAdmin) {}
 
     private static String normalizeEmail(String email) {
         return email == null ? null : email.strip().toLowerCase(Locale.ROOT);
