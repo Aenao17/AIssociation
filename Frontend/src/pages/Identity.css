@@ -1,0 +1,179 @@
+.identity-shell {
+  min-height: 100%;
+  padding: 40px 20px 72px;
+  background: #f5f6ef;
+  color: #19362d;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+.identity-brand {
+  display: block;
+  max-width: 480px;
+  margin: 0 auto 30px;
+  font-size: 25px;
+  font-weight: 800;
+  text-decoration: none;
+  color: #19362d;
+  letter-spacing: -1px;
+}
+.identity-brand span {
+  color: #6e973e;
+}
+.identity-card {
+  max-width: 480px;
+  margin: auto;
+  padding: 32px;
+  background: white;
+  border: 1px solid #dde5d8;
+  border-radius: 18px;
+  box-shadow: 0 12px 40px #18372a08;
+}
+.identity-eyebrow {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 1.6px;
+  color: #647e60;
+  margin: 0 0 14px;
+}
+.identity-card h1 {
+  font-size: 31px;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  margin: 0 0 14px;
+}
+.identity-intro {
+  color: #5a6d63;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+.identity-card label {
+  display: block;
+  font-size: 14px;
+  font-weight: 650;
+  margin: 18px 0;
+}
+.identity-card input {
+  display: block;
+  width: 100%;
+  margin-top: 7px;
+  border: 1px solid #bfcdbb;
+  border-radius: 8px;
+  padding: 13px;
+  background: #fff;
+  color: #19362d;
+  font: inherit;
+}
+.identity-card input:focus-visible,
+.identity-card button:focus-visible,
+.identity-shell a:focus-visible {
+  outline: 3px solid #76a68a;
+  outline-offset: 3px;
+}
+.identity-primary,
+.identity-secondary {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.identity-primary {
+  border: 1px solid #245c43;
+  background: #245c43;
+  color: white;
+}
+.identity-secondary {
+  background: white;
+  color: #245c43;
+  border: 1px solid #c8d4c3;
+}
+.identity-card form > .identity-primary {
+  width: 100%;
+  margin-top: 16px;
+}
+.identity-card button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.identity-help {
+  font-size: 12px;
+  color: #66796c;
+  line-height: 1.5;
+}
+.identity-error {
+  background: #fff0ed;
+  color: #912c23;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.identity-notice {
+  background: #edf6e6;
+  color: #345b2b;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.identity-switch {
+  font-size: 14px;
+  margin: 25px 0 0;
+  color: #5a6d63;
+}
+.identity-shell a {
+  color: #245c43;
+}
+.identity-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+.identity-empty {
+  padding: 20px;
+  background: #f3f6ed;
+  border-radius: 10px;
+  line-height: 1.6;
+}
+.identity-card h2 {
+  font-size: 18px;
+  margin-top: 28px;
+}
+.identity-memberships {
+  list-style: none;
+  padding: 0;
+}
+.identity-memberships li {
+  border-bottom: 1px solid #e3eadf;
+  padding: 14px 0;
+}
+.identity-memberships span {
+  display: block;
+  font-size: 13px;
+  color: #63765f;
+  margin-top: 5px;
+}
+.identity-landing {
+  text-align: left;
+}
+.identity-landing .identity-actions a {
+  text-decoration: none;
+}
+.identity-landing .identity-primary {
+  color: white;
+}
+@media (max-width: 500px) {
+  .identity-shell {
+    padding-top: 25px;
+  }
+  .identity-card {
+    padding: 25px 20px;
+  }
+  .identity-card h1 {
+    font-size: 27px;
+  }
+}

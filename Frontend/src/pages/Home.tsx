@@ -1,26 +1,48 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonPage } from '@ionic/react';
+import { Link } from 'react-router-dom';
 
-import ExploreContainer from '../components/ExploreContainer';
-import './Home.css';
+import { useAuth } from '../auth/useAuth';
+import './Identity.css';
 
 const Home: React.FC = () => {
+  const { user } = useAuth();
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Blank</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Blank</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer />
+      <IonContent>
+        <main className="identity-shell">
+          <div className="identity-brand">
+            AIssociation<span>.</span>
+          </div>
+          <section className="identity-card identity-landing">
+            <p className="identity-eyebrow">For student communities</p>
+            <h1>
+              Your associations.
+              <br />
+              One account.
+            </h1>
+            <p className="identity-intro">
+              Create your account to get started. Event discovery and association workspaces are coming next.
+            </p>
+            <div className="identity-actions">
+              {user ? (
+                <Link className="identity-primary" to="/account">
+                  My account
+                </Link>
+              ) : (
+                <>
+                  <Link className="identity-primary" to="/register">
+                    Create an account
+                  </Link>
+                  <Link className="identity-secondary" to="/login">
+                    Sign in
+                  </Link>
+                </>
+              )}
+            </div>
+          </section>
+        </main>
       </IonContent>
     </IonPage>
   );
 };
-
 export default Home;

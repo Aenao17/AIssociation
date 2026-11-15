@@ -9,8 +9,7 @@ UBB student association event management application — Team Stucanii.
 - `Frontend/`: Ionic React, TypeScript, and Vite.
 - `compose.yaml`: local PostgreSQL and an optional containerized backend.
 
-These are starter scaffolds. Event workflows, authentication, and the domain
-model have not been implemented yet.
+The account slice provides registration, bearer-session login/logout, and current-user membership information. Event/project workflows and membership administration are not implemented yet. See [the identity contract](docs/contracts/identity-and-current-user.md).
 
 ## Prerequisites
 
@@ -92,8 +91,7 @@ From `Backend/`, with `MAVEN_USER_HOME` set as above:
 ./mvnw -Dmaven.repo.local="$MAVEN_USER_HOME/repository" verify
 ```
 
-The starter backend context test uses H2 in PostgreSQL compatibility mode,
-so it does not require Docker. This does not replace PostgreSQL integration
+Backend context and identity integration tests use H2 in PostgreSQL compatibility mode with Flyway migrations, so they do not require Docker. This does not replace PostgreSQL integration
 testing. Schema generation is disabled for the running application; add
 versioned migrations when introducing the domain model.
 
@@ -126,3 +124,18 @@ variable `CORS_ALLOWED_ORIGINS` (comma-separated origins, no trailing slashes).
 For production-only access, set it to `https://aissociation.vercel.app`.
 Preview deployments need their own explicitly allowed origin. Cookie credentials
 are not enabled; the API allows the `Authorization` and `Content-Type` headers.
+
+## Account flow
+
+Open `/register`, create a participant account, then sign in at `/login` to view
+`/account`. Registration does not add association membership. Tokens stay in
+browser memory; a page reload requires signing in again. Sign out revokes the
+current server session.
+
+Flyway applies the initial identity/association schema on backend startup.
+Coordinate subsequent migration numbers with Raul and do not modify an applied
+migration. No default users or passwords are seeded. The workspace/admin slice
+will add association bootstrap and membership management.
+
+API details and teammate handoffs: [identity/current-user contract](docs/contracts/identity-and-current-user.md).
+Authentication rationale: [ADR 0001](docs/decisions/0001-bearer-sessions.md).
