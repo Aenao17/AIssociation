@@ -6,10 +6,9 @@ Open `brand-guide.html` for the visual guide or `brand-guide.pdf` for the printa
 
 ## Package contents
 
-- `assets/`: transparent SVG outlines and PNG exports of the full logo, standalone symbol and wordmark, in ink and white. SVGs contain real paths, not embedded raster images. The custom lettering is not a font.
+- `assets/`: transparent SVG outlines and PNG exports of the full logo, standalone symbol and wordmark, in ink and white. SVGs contain real paths, not embedded raster images. The custom lettering is not a font. Vector outlines were traced from the approved image; they are a production reconstruction, not an original font or manually drawn master.
 - `web/`: adaptive SVG favicon, multi-resolution ICO (16/32/48), PNG icons, Apple touch icon (180), app icons (192/512), maskable app icon (512), web manifest, social preview (1200x630), CSS tokens and HTML metadata.
 - `source/approved-logo.png`: original approved image, preserved for reference.
-- `tools/`: reproducible export scripts. Vector outlines were traced from the approved image; they are a production reconstruction, not an original font or manually drawn master.
 
 The guide defines a proposed website system around the approved logo. The terracotta accent, system typography and “Connect. Learn. Build together.” line are proposed brand extensions; the line is optional, not a required tagline.
 
@@ -41,18 +40,13 @@ Do not edit copied assets independently or redraw the logo.
 
 The original zip is kept local; the expanded source kit is tracked in Git.
 
-## Build / verification
+## Asset usage
 
-Vector conversion: Python 3 + Pillow + Potrace. Raster exports: Node.js + Sharp. The Node utilities resolve Sharp and Playwright through normal local package resolution; no developer-specific runtime path is required. The PDF renderer uses Playwright Chromium by default, or an explicitly configured CHROMIUM_EXECUTABLE_PATH. Guide PDF: Chromium print from the HTML. Font stack uses Arial/Helvetica/sans-serif and Georgia for editorial accents; no third-party font downloads are required.
+The supplied SVGs, raster exports and guide are ready for normal development.
+No export or PDF-generation tooling is required by the product build.
+Use Arial/Helvetica/sans-serif for interface text and Georgia for editorial
+headings; no third-party font downloads are required.
 
-Do not regenerate the identity with image generation for routine exports. Use the supplied vector masters and preserve their aspect ratio. Keep the approved source for design review.
-
-## Optional regeneration tools
-
-Routine application builds do not regenerate brand assets. To run the optional
-Node export tools, install `sharp` and `playwright` in an environment resolvable
-from this folder (for example, from `branding/`, run
-`npm install --no-save --package-lock=false sharp playwright`). Install Playwright
-Chromium before using `tools/render-guide.mjs`, or configure
-`CHROMIUM_EXECUTABLE_PATH`. Python tools additionally need Pillow and Potrace.
-The supplied SVGs/exports are ready for normal development without these tools.
+Preserve the supplied vector artwork and aspect ratio. Keep the approved source
+for design review. The frontend asset-sync script copies existing files; it does
+not regenerate the logo or guide.

@@ -50,10 +50,9 @@
   Arial interface/Georgia landing typography; consistent controls/focus states;
   branded favicon/app manifest/social metadata; repeatable local asset sync.
 - Shared kit: HTML/PDF guide, approved reference source, vector/raster exports,
-  web assets and optional export utilities. Removed machine-specific tool imports.
+  and web assets. The frontend asset-sync script copies the approved files.
 - Verification: frontend lint/type checks, 12 unit tests and production build;
   copied logo/token integrity, manifest/icon paths/dimensions, SVG parsing and
   social-card dimensions; visual desktop/390px mobile and keyboard-focus checks.
 - Limits: existing backend behavior is unchanged; dark UI surfaces remain opt-in.
-  The optional asset-regeneration/PDF tools were not run. Hosting changes await
-  merge/deployment; use the checked-in runtime assets for production builds.
+  Hosting changes await merge/deployment; use the checked-in runtime assets for production builds.
