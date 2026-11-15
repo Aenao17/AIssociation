@@ -2,6 +2,7 @@ package ro.stucanii.aissociation.identity;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import ro.stucanii.aissociation.platform.PlatformAssociationController;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice(assignableTypes = AuthController.class)
+@RestControllerAdvice(assignableTypes = {AuthController.class, PlatformAssociationController.class})
 public class ApiErrors {
     public record ErrorBody(String code, String message, Map<String, String> fieldErrors) {}
 

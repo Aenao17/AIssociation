@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { AuthProvider } from './AuthProvider';
 import { useAuth } from './useAuth';
 
-const user = { id: 'u1', displayName: 'Alex', email: 'alex@example.com', memberships: [] };
+const user = { id: 'u1', displayName: 'Alex', email: 'alex@example.com', memberships: [], platformAdmin: false };
 const loginResult = {
   accessToken: 'test-token',
   expiresAt: new Date(Date.now() + 3600000).toISOString(),

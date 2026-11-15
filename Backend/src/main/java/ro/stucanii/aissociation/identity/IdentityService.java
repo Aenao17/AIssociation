@@ -16,22 +16,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.stucanii.aissociation.platform.PlatformAdminAccess;
 
 @Service
 public class IdentityService {
     private final IdentityRepository repository;
+    private final PlatformAdminAccess platformAdminAccess;
     private final PasswordEncoder encoder;
     private final Clock clock;
     private final Duration sessionDuration;
     private final SecureRandom random = new SecureRandom();
     private final String dummyHash;
 
-    public IdentityService(IdentityRepository repository, PasswordEncoder encoder, Clock clock,
+    public IdentityService(IdentityRepository repository, PasswordEncoder encoder, Clock clock, PlatformAdminAccess platformAdminAccess,
             @Value("${app.auth.session-duration}") Duration sessionDuration) {
         if (sessionDuration.isZero() || sessionDuration.isNegative()) {
             throw new IllegalArgumentException("Session duration must be positive.");
         }
         this.repository = repository;
+        this.platformAdminAccess = platformAdminAccess;
         this.encoder = encoder;
         this.clock = clock;
         this.sessionDuration = sessionDuration;
@@ -74,7 +77,7 @@ public class IdentityService {
     public void logout(AuthenticatedUser user) { repository.deleteSession(user.sessionId()); }
 
     public AuthDtos.CurrentUser currentUser(AuthenticatedUser user) {
-        return new AuthDtos.CurrentUser(user.id(), user.displayName(), user.email(), repository.memberships(user.id()));
+        return new AuthDtos.CurrentUser(user.id(), user.displayName(), user.email(), repository.memberships(user.id()), platformAdminAccess.isPlatformAdmin(user.id()));
     }
 
     static String hashToken(String token) {

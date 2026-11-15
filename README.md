@@ -139,3 +139,14 @@ will add association bootstrap and membership management.
 
 API details and teammate handoffs: [identity/current-user contract](docs/contracts/identity-and-current-user.md).
 Authentication rationale: [ADR 0001](docs/decisions/0001-bearer-sessions.md).
+
+## Platform administration
+
+Trusted platform operators can create associations at `/admin/associations` and
+appoint an existing account as the initial association administrator. Platform
+access is disabled until the backend operator configures `PLATFORM_ADMIN_USER_IDS`
+with trusted account UUIDs. This is separate from association `ADMIN` membership.
+See [setup and API contract](docs/contracts/platform-association-admin.md).
+
+No demo associations or administrator passwords are seeded. The interface creates
+ordinary records using the protected API.

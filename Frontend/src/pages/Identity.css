@@ -177,3 +177,29 @@
     font-size: 27px;
   }
 }
+
+.platform-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 24px;
+  max-width: 1000px;
+  margin: auto;
+  align-items: start;
+}
+.platform-layout .identity-card {
+  width: 100%;
+  max-width: none;
+}
+.platform-layout h2 {
+  margin-top: 0;
+}
+.identity-admin-link {
+  display: inline-block;
+  font-weight: 700;
+  padding: 12px 0;
+}
+@media (max-width: 760px) {
+  .platform-layout {
+    grid-template-columns: 1fr;
+  }
+}
