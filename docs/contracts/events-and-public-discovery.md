@@ -124,11 +124,11 @@ No roster or attendance data is added to public event responses.
 
 ## Schema / coordination
 
-V3__events_public_profiles.sql adds profile description/website, events and indexes,
+`V6__events_public_profiles.sql` (originally V3; renumbered because main already had `V3__research_responses.sql`, `V4__tasks.sql` and `V5__messaging.sql`) adds profile description/website, events and indexes,
 and a composite unique key on projects(id,association_id) for scoped event FKs.
-V1/V2 are unchanged. V3 is a local allocation, not a reservation approved by Raul;
-reconcile before shared application. No production seeds or passwords are added.
-Tests include fresh migrations, V2->V3 retention and direct cross-association FK
+V1–V5 are unchanged. V6 is the next free number on main; confirm it with Raul
+before shared application. No production seeds or passwords are added.
+Tests include fresh migrations, V2->V6 retention and direct cross-association FK
 rejection. The existing project upgrade test now targets V2 explicitly.
 
 ## UI routes

@@ -1,7 +1,7 @@
 ﻿# Data model and migration index
 
 Owner/coordinator: Raul. Updated 16 November 2026.
-Physical model below matches V1–V3 SQL. V3 is Yasmine's local allocation pending
+Physical model below matches V1–V6 SQL. V6 (events, originally V3) is Yasmine's allocation pending
 reconciliation with the migration coordinator before shared application.
 
 ## Relationships
@@ -177,7 +177,7 @@ the API before insertion.
 | --- | --- | --- | --- |
 | V1 | [V1__identity_foundation.sql](../Backend/src/main/resources/db/migration/V1__identity_foundation.sql) | Gabriel | Existing identity/session/association foundation; unchanged |
 | V2 | [V2__projects_recruitment_reporting.sql](../Backend/src/main/resources/db/migration/V2__projects_recruitment_reporting.sql) | Raul | Depends on V1; projects, configurable departments/positions, team/reporting and applications; verified locally on H2/PostgreSQL |
-| V3 | [V3__events_public_profiles.sql](../Backend/src/main/resources/db/migration/V3__events_public_profiles.sql) | Yasmine | Local allocation; adds events/profile fields, composite project/association FK and discovery indexes. Reconcile with Raul before shared application. H2 verification; PostgreSQL check remains pending |
+| V6 | [V6__events_public_profiles.sql](../Backend/src/main/resources/db/migration/V6__events_public_profiles.sql) | Yasmine | Renumbered from V3 (duplicate of `V3__research_responses.sql`); adds events/profile fields, composite project/association FK and discovery indexes. Reconcile with Raul before shared application. H2 verification; PostgreSQL check remains pending |
 | Unallocated | Registration, tasks and messages | Respective owners; Raul coordinates | Supply schema dependencies before allocating numbers; no implied reservations here |
 
 Coordinate V2 with other owners before merging/applying across shared environments;
