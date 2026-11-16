@@ -1,5 +1,23 @@
 # Engineering evidence log
 
+## 17 November 2026 — Projects and recruitment visual refinement
+
+- Reused the authenticated dashboard header, aligned content width and return links
+  on project list/detail pages. Improved heading/refresh alignment, project-count
+  badge, project cards, manager badge/deadline hierarchy and creation form spacing.
+  Member-only lists use the full available width rather than leaving an empty column.
+- Matched recruitment/configuration fields, dropdowns, team/application cards and
+  action groups to the established visual palette. Full-width project administration
+  panel and a distinct deletion area improve hierarchy. Mobile columns stack; focus
+  indicators and reduced-motion preferences remain supported. No API/permission or
+  recruitment business rules were changed.
+- Verification: TypeScript, scoped ESLint/formatting and production build passed
+  (existing bundle warning). Browser checks covered administrator/member list and
+  detail layouts at 1365px/390px with no horizontal overflow, project-creation payload
+  and recruitment application submission. Intercepted synthetic API data only;
+  screenshots inspected. Temporary browser script corrected overly exact select-label
+  matching; final four role/viewport checks passed. No new backend test claim.
+
 ## 17 November 2026 — Account, administration and workspace layout
 
 - Reviewed the updated frontend. Added a shared authenticated dashboard shell with
