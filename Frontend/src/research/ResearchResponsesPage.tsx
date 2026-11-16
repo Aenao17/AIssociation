@@ -1,38 +1,34 @@
-import { IonContent, IonPage } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import type { ReactElement } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import { useAuth } from '../auth/useAuth';
-import BrandHeader from '../components/BrandHeader';
+import DashboardShell from '../components/DashboardShell';
 
 import { questions } from './questions';
 import type { ResearchResponse } from './questions';
 import '../pages/Identity.css';
 import './Research.css';
 
-export default function ResearchResponsesPage(): ReactElement {
+export default function ResearchResponsesPage({ embedded = false }: { embedded?: boolean }): ReactElement {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" replace />;
-  return (
-    <IonPage>
-      <IonContent>
-        <main className="identity-shell">
-          <BrandHeader wide />
-          <section className="identity-card research-card">
-            <p className="identity-eyebrow">Platform administration</p>
-            <h1>Research responses</h1>
-            <Link to="/account">Back to my account</Link>
-            {user.platformAdmin ? (
-              <ResponseList key={user.id} />
-            ) : (
-              <p>This area is available to AIssociation platform administrators.</p>
-            )}
-          </section>
-        </main>
-      </IonContent>
-    </IonPage>
+  const Heading = embedded ? 'h2' : 'h1';
+  const content = (
+    <div className="dashboard-research">
+      <section className="identity-card research-card">
+        <p className="identity-eyebrow">Platform administration</p>
+        <Heading>Research responses</Heading>
+        <p className="identity-intro">Explore what student communities shared about their work and needs.</p>
+        {user.platformAdmin ? (
+          <ResponseList key={user.id} />
+        ) : (
+          <p>This area is available to AIssociation platform administrators.</p>
+        )}
+      </section>
+    </div>
   );
+  return embedded ? content : <DashboardShell>{content}</DashboardShell>;
 }
 
 function ResponseList() {

@@ -1,12 +1,10 @@
-import { IonContent, IonPage } from '@ionic/react';
 import { useCallback, useEffect, useState } from 'react';
 import type { ReactElement } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 
 import { ApiError } from '../auth/client';
 import { useAuth } from '../auth/useAuth';
-import BackLink from '../components/BackLink';
-import BrandHeader from '../components/BrandHeader';
+import DashboardShell from '../components/DashboardShell';
 import MembershipPanel from '../workspaces/MembershipPanel';
 import type { Workspace } from '../workspaces/types';
 import './Identity.css';
@@ -74,63 +72,55 @@ function WorkspaceContent({ slug }: { slug: string }): ReactElement {
 
   if (!user) return <Navigate to="/login" replace />;
   return (
-    <IonPage>
-      <IonContent>
-        <main className="identity-shell">
-          <BrandHeader wide />
-          <div className="workspace-layout">
-            <section className="identity-card" aria-labelledby="workspace-heading">
-              <p className="identity-eyebrow">Association workspace</p>
-              <h1 id="workspace-heading">{workspace?.name ?? 'Your workspace'}</h1>
-              {message ? (
-                <p className="identity-error" role="alert">
-                  {message}
-                </p>
-              ) : !workspace ? (
-                <p role="status">Loading workspace…</p>
-              ) : (
-                <>
-                  <p className="identity-intro">
-                    Your role: <strong>{workspace.role === 'ADMIN' ? 'Administrator' : 'Member'}</strong>
-                  </p>
-                  <p>
-                    {workspace.role === 'ADMIN'
-                      ? 'Manage your association’s membership below.'
-                      : 'You are signed in to your association’s workspace.'}
-                  </p>
-                  <Link className="identity-primary" to={`/workspaces/${encodeURIComponent(slug)}/projects`}>
-                    Projects &amp; recruitment
-                  </Link>
-                  <Link className="identity-secondary" to={`/workspaces/${encodeURIComponent(slug)}/events`}>
-                    Events &amp; public profile
-                  </Link>
-                </>
-              )}
-              <div className="identity-actions">
-                <BackLink to="/account">Back to my account</BackLink>
-                <button
-                  type="button"
-                  className="identity-secondary"
-                  disabled={refreshing}
-                  onClick={() => {
-                    void refresh();
-                  }}
-                >
-                  {refreshing ? 'Refreshing…' : 'Refresh workspace'}
-                </button>
-              </div>
-            </section>
-            {workspace?.role === 'ADMIN' && (
-              <MembershipPanel
-                key={workspace.associationId}
-                associationId={workspace.associationId}
-                onChange={refresh}
-              />
-            )}
+    <DashboardShell>
+      <div className="workspace-layout">
+        <section className="identity-card" aria-labelledby="workspace-heading">
+          <p className="identity-eyebrow">Association workspace</p>
+          <h1 id="workspace-heading">{workspace?.name ?? 'Your workspace'}</h1>
+          {message ? (
+            <p className="identity-error" role="alert">
+              {message}
+            </p>
+          ) : !workspace ? (
+            <p role="status">Loading workspace…</p>
+          ) : (
+            <>
+              <p className="identity-intro">
+                Your role: <strong>{workspace.role === 'ADMIN' ? 'Administrator' : 'Member'}</strong>
+              </p>
+              <p>
+                {workspace.role === 'ADMIN'
+                  ? 'Manage your association’s membership below.'
+                  : 'You are signed in to your association’s workspace.'}
+              </p>
+              <nav className="workspace-module-nav" aria-label="Workspace tools">
+                <Link className="identity-primary" to={`/workspaces/${encodeURIComponent(slug)}/projects`}>
+                  Projects &amp; recruitment
+                </Link>
+                <Link className="identity-secondary" to={`/workspaces/${encodeURIComponent(slug)}/events`}>
+                  Events &amp; public profile
+                </Link>
+              </nav>
+            </>
+          )}
+          <div className="identity-actions">
+            <button
+              type="button"
+              className="identity-secondary"
+              disabled={refreshing}
+              onClick={() => {
+                void refresh();
+              }}
+            >
+              {refreshing ? 'Refreshing…' : 'Refresh workspace'}
+            </button>
           </div>
-        </main>
-      </IonContent>
-    </IonPage>
+        </section>
+        {workspace?.role === 'ADMIN' && (
+          <MembershipPanel key={workspace.associationId} associationId={workspace.associationId} onChange={refresh} />
+        )}
+      </div>
+    </DashboardShell>
   );
 }
 
