@@ -1,0 +1,35 @@
+.projects-shell { --control-border: var(--color-border); }
+.project-nav { display: flex; gap: 24px; max-width: 1200px; margin: 24px auto; }
+.project-heading { max-width: 1200px; margin: 32px auto; }
+.project-heading h1 { margin: 0 0 16px; font-size: clamp(30px, 4vw, 44px); line-height: 1.15; }
+.project-heading > p { max-width: 800px; }
+.project-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 1200px; margin: auto; align-items: start; }
+.project-panel { padding: 28px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card); min-width: 0; }
+.project-panel h2 { margin: 0 0 20px; font-size: 24px; line-height: 1.3; }
+.project-panel h3 { margin: 20px 0 12px; font-size: 18px; }
+.project-panel fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.project-panel label { display: block; margin: 16px 0; font-weight: 700; }
+.project-panel input, .project-panel textarea, .project-panel select {
+  display: block; width: 100%; margin-top: 8px; padding: 12px; min-height: 48px;
+  border: 1px solid var(--color-border); border-radius: var(--radius-control);
+  background: var(--color-surface); color: var(--color-text); font: inherit;
+}
+.project-panel textarea { min-height: 110px; resize: vertical; }
+.project-panel :is(button, input, select, textarea):focus-visible { outline: 3px solid var(--brand-focus); outline-offset: 3px; }
+.project-panel button:disabled { opacity: .6; cursor: default; }
+.project-panel form + form { border-top: 1px solid var(--color-border); margin-top: 28px; padding-top: 8px; }
+.project-list { list-style: none; padding: 0; margin: 0; }
+.project-list > li { padding: 16px 0; border-bottom: 1px solid var(--color-border); overflow-wrap: anywhere; }
+.project-list > li:last-child { border-bottom: 0; }
+.project-list h3:first-child { margin-top: 0; }
+.project-prose { white-space: pre-wrap; overflow-wrap: anywhere; }
+.project-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; background: var(--color-bg); font-size: 14px; }
+.project-wide { max-width: 1200px; margin: 24px auto; }
+.project-text-button { border: 0; background: none; padding: 10px; color: var(--brand-accent); font: inherit; text-decoration: underline; cursor: pointer; }
+.projects-shell > :is(.identity-error, .identity-notice) { max-width: 1200px; margin-inline: auto; }
+@media (max-width: 780px) {
+  .project-columns { grid-template-columns: 1fr; }
+  .project-panel { padding: 20px; }
+  .projects-shell { padding: 20px 16px 48px; }
+  .project-record .identity-actions { flex-direction: column; align-items: stretch; }
+}

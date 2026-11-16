@@ -16,6 +16,7 @@
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "test:e2e": "playwright test",
+    "test:e2e:projects": "playwright test --config playwright.projects.config.ts",
     "brand:sync": "node scripts/sync-brand.mjs"
   },
   "dependencies": {

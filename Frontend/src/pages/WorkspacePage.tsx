@@ -97,6 +97,9 @@ function WorkspaceContent({ slug }: { slug: string }): ReactElement {
                       ? 'Manage your association’s membership below.'
                       : 'You are signed in to your association’s workspace.'}
                   </p>
+                  <Link className="identity-primary" to={`/workspaces/${encodeURIComponent(slug)}/projects`}>
+                    Projects &amp; recruitment
+                  </Link>
                 </>
               )}
               <div className="identity-actions">

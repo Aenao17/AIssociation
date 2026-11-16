@@ -9,7 +9,10 @@ UBB student association event management application — Team Stucanii.
 - `Frontend/`: Ionic React, TypeScript, and Vite.
 - `compose.yaml`: local PostgreSQL and an optional containerized backend.
 
-The application provides accounts, platform association creation, association workspaces and membership administration. Event/project workflows remain separate work packages. See [the identity contract](docs/contracts/identity-and-current-user.md).
+The application provides accounts, association workspaces, membership administration,
+projects, recruitment and reporting hierarchies. Event/task/messaging workflows
+remain separate work packages. See [the identity contract](docs/contracts/identity-and-current-user.md)
+and [the project contract](docs/contracts/projects-and-reporting.md).
 
 ## Prerequisites
 
@@ -169,3 +172,23 @@ MEMBER/ADMIN roles and remove memberships. The last administrator is protected.
 Backend integration: [workspace/member API and shared permission checks](docs/contracts/association-workspaces.md).
 Project, task and chat modules must combine association membership checks with
 their own project/reporting/audience rules.
+
+## Projects and recruitment
+
+Open **Projects & recruitment** from an association workspace. Administrators
+create projects and appoint existing association members as project managers.
+Managers configure a recruitment call and role/department positions. Members apply
+with motivation; a manager accepts one position with a valid reporting supervisor,
+or rejects the application. Acceptance persists the team assignment and closes the
+member's other pending applications in that project. Managers can appoint department
+managers and edit reporting relationships.
+
+Flyway V2 adds the project domain without modifying V1. Removed association
+members lose active project access; rejoining does not revive old assignments.
+The shared ProjectAccess helpers supply scoped membership, strict reporting ancestry
+and audience queries for the other owners.
+
+Details: [Raul's implementation handoff](RAUL_IMPLEMENTATION.md),
+[API and behavior](docs/contracts/projects-and-reporting.md),
+[ERD/migration index](docs/data-model.md), and
+[PostgreSQL/browser verification setup](docs/testing-projects.md).

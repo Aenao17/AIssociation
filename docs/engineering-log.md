@@ -83,3 +83,70 @@
 - Handoff: docs/contracts/association-workspaces.md. No new migration or hosted
   data changes. Project/task/chat owners must apply both membership and their
   own finer-grained rules. Playwright suite not run.
+
+## 16 November 2026 — Raul's project-workflow inspection and planning
+
+- Owner: Raul; inspection and draft documentation prepared with Codex assistance.
+  No project-domain application code or SQL was generated in this session.
+- Human direction: FR-04–FR-07 only; preserve shared identity/access conventions,
+  coordinate hierarchy/contracts and migrations, and identify independent work
+  before generating its implementation. The no-GenAI feature question is pending;
+  Gabriel's research form remains excluded.
+- Inspected local revision `76e3238`, existing source/tests/migrations/contracts,
+  README, Git state and the supplied team-plan HTML. Created local branch
+  `feature/raul-projects-recruitment`; left the pre-existing untracked root lockfile
+  untouched. No commit, push, merge, deployment or teammate message was made.
+- Artifacts: `docs/plans/raul-work-package.md`, draft
+  `docs/contracts/projects-and-reporting.md`, and `docs/data-model.md` with the
+  actual V1 ERD and migration index. Proposed domain choices are labeled open;
+  the current-model diagram does not claim project tables already exist.
+- Verification: cached Maven wrapper offline verify passed (31 H2 tests), frontend
+  unit tests passed (20), production build passed. Frontend lint passed ESLint
+  and TypeScript stages but failed Prettier on 28 existing files. Initial sandbox
+  wrapper/Vite failures were retried with permission. No PostgreSQL, Playwright,
+  browser or deployed verification was run.
+- Toolchain caveat: Node 24.14.0 differs from specified 26; successful Maven used
+  Java 21.0.12.1 while the POM targets 17. Settings/dependencies were not changed.
+- Review required: no-GenAI selection; other pending applications after acceptance;
+  root/department reporting; removal/rejoining/history; department audiences;
+  member selector and first-slice fields. No human acceptance is claimed.
+- Tool: Codex. Exact model identifier must be taken from session metadata for
+  the GenAI declaration; it is not inferred here. Raul's review and explanation
+  of the artifacts remain pending. Next slice: scoped project creation and
+  initial manager appointment across UI/API/persistence.
+
+## 16 November 2026 — Raul's FR-04–FR-07 implementation
+
+- Human direction: implement the complete assigned work package without further
+  permission questions and provide a brief Markdown explanation. All delivered
+  work is AI-assisted; no independent assessment feature or human review is claimed.
+- Added project/recruitment/reporting APIs, Flyway V2, workspace-linked UI,
+  transactional selection and shared ProjectAccess helpers. Reused Gabriel's
+  identities, membership checks, sessions and global errors. No tasks, events,
+  attendance, chat or research-form implementation was added.
+- Decisions: close other pending applications after acceptance; root project
+  managers; explicit department-manager appointments; project-local labels;
+  one extendable call; no withdrawal/reapplication. Preserve history and revoke
+  access by nulling original membership references on removal; rejoin does not
+  silently restore project access. Choices are documented, not teammate approvals.
+- Verification: Java 17 Maven verify passed 45 tests; all 14 new workflow tests
+  passed on PostgreSQL 17, including concurrent acceptance, direct constraint
+  checks and V1 upgrade retaining an existing account. Frontend 26 tests, build,
+  ESLint and end-to-end typecheck passed. Desktop/mobile real browser workflows
+  passed with separate accounts. Initial browser locator and migration-test
+  identifier-quoting issues were corrected and rechecked.
+- Artifacts: RAUL_IMPLEMENTATION.md explains what/why; project API contract,
+  physical ERD/migration index, requirement mapping and verification runbook
+  describe the implemented behavior and consumer integration points.
+- Limits: Node 24 used locally versus specified 26; existing global formatting
+  failures and build bundle-size warning remain. No hosted verification, commit,
+  push, merge or external teammate message. The pre-existing root lockfile remains
+  untouched. V2 allocation must be reconciled before shared application.
+- Tool: Codex; exact model metadata belongs in the eventual GenAI declaration.
+  Raul must review/explain the implementation and record actual human corrections.
+- Final checks repeated after review: all 45 Java 17 tests and packaging passed;
+  all 14 PostgreSQL tests and both desktop/mobile browser flows passed. A Windows
+  JAR lock from the temporary backend was resolved by stopping it before packaging.
+  Final global lint reports 26 untouched formatting failures; touched-file formatting
+  passes. Temporary verification servers, container and anonymous test volume were
+  removed; the application's existing database was not used or changed.
