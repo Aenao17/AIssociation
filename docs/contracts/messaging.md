@@ -115,7 +115,7 @@ Suggested UI loop: load without cursors, then poll every 3–5 s with
 
 ## Persistence
 
-Migration `V4__messaging.sql` (number to confirm with Raul): `conversations`
+Migration `V5__messaging.sql` (renumbered from V4 after main received V3 research responses): `conversations`
 (type, association, optional project/department, unique `scope_key`, group name,
 creator), `conversation_members` (GROUP/DIRECT only, with the member's association
 membership id, nulled on removal), `messages` (identity `seq`, sender, body, time).

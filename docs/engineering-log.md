@@ -235,3 +235,13 @@
   ADMIN and outsider denial (404), direct-pair uniqueness and group creation checked.
 - Limits: no messaging UI yet (Denisa); migration number V4 to confirm with Raul;
   no message edit/delete, attachments or push.
+
+## 16 November 2026 — Tudor's migrations renumbered after merging main
+
+- Main received Gabriel's `V3__research_responses.sql` while tasks/messaging were on
+  a feature branch. Merged main and renumbered Tudor's migrations: tasks V3 → `V4__tasks.sql`,
+  messaging V4 → `V5__messaging.sql`. Neither depends on the research tables.
+  Earlier log entries keep the numbers that were in use at the time.
+- Coordination: Raul to record V4/V5 for Tudor; next free migration number is V6.
+- Local databases that applied the old V3 tasks / V4 messaging must be reset
+  (synthetic data only) before running this branch.

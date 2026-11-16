@@ -118,7 +118,7 @@ Assignee option: `userId, displayName, projectRole, departmentName`.
 
 ## Persistence
 
-Migration `V3__tasks.sql` (number confirmed with Raul): table `tasks`
+Migration `V4__tasks.sql` (originally V3; renumbered because main received `V3__research_responses.sql`): table `tasks`
 (`project_id`, `assignee_user_id`, `created_by_user_id`, `title`, `description`,
 `due_at`, `status`, timestamps), indexed on `(project_id, assignee_user_id)` and
 `assignee_user_id`.
