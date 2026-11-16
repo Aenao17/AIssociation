@@ -9,6 +9,8 @@ import Home from './pages/Home';
 import PlatformAssociationsPage from './pages/PlatformAssociationsPage';
 import WorkspacePage from './pages/WorkspacePage';
 import ProjectPages from './projects/ProjectPages';
+import ResearchPage from './research/ResearchPage';
+import ResearchResponsesPage from './research/ResearchResponsesPage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -49,6 +51,8 @@ const App: React.FC = () => (
       <IonReactRouter>
         <IonRouterOutlet>
           <Route path="/home" element={<Home />} />
+          <Route path="/research" element={<ResearchPage />} />
+          <Route path="/admin/research" element={<ResearchResponsesPage />} />
           <Route path="/login" element={<AuthPage mode="login" key="login" />} />
           <Route path="/register" element={<AuthPage mode="register" key="register" />} />
           <Route path="/account" element={<AccountPage />} />
