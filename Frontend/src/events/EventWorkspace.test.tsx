@@ -55,6 +55,31 @@ function view(role = 'ADMIN', canManage = true) {
   return { request, event };
 }
 describe('event workspace FR-10', () => {
+  it('requires confirmation and removes a deleted event only after server success', async () => {
+    const { request, event } = view();
+    await screen.findByRole('button', { name: 'Create event' });
+    const original = request.getMockImplementation()!;
+    request.mockImplementation((path: string, options?: RequestInit) => {
+      if (options?.method === 'DELETE') return Promise.resolve(undefined);
+      if (path === '/api/associations/a1/events')
+        return Promise.resolve([{ event, projectId: null, updatedAt: 'now' }]);
+      return original(path, options);
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Refresh events' }));
+    const remove = await screen.findByRole('button', { name: 'Delete Workshop' });
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false);
+    try {
+      fireEvent.click(remove);
+      expect(request).not.toHaveBeenCalledWith('/api/associations/a1/events/e1', { method: 'DELETE' });
+      confirm.mockReturnValue(true);
+      fireEvent.click(remove);
+      expect(await screen.findByRole('status')).toHaveTextContent('Event deleted.');
+      expect(screen.queryByRole('heading', { name: 'Workshop' })).not.toBeInTheDocument();
+      expect(request).toHaveBeenCalledWith('/api/associations/a1/events/e1', { method: 'DELETE' });
+    } finally {
+      confirm.mockRestore();
+    }
+  });
   it('creates a standalone draft with UTC timestamps then publishes directly', async () => {
     const { request } = view();
     fireEvent.click(await screen.findByRole('button', { name: 'Create event' }));

@@ -26,7 +26,8 @@ Prefix: /api/associations/{associationId}/projects.
 | GET collection | Association member; internal summaries only |
 | POST collection | Association ADMIN; create project and 1–20 initial manager appointments atomically |
 | GET /{projectId} | Active project team or association ADMIN; project details |
-| PATCH /{projectId} | Active project manager; edit name/description |
+| PATCH /{projectId} | Active project manager or association ADMIN; edit name/description |
+| DELETE /{projectId} | Association ADMIN; delete unused project/configuration and root appointments; 204 or 409 PROJECT_IN_USE |
 | PUT /{projectId}/managers/{userId} | Association ADMIN; appoint/promote an existing association member to root project manager |
 | GET /{projectId}/member-options | Project manager or association ADMIN; current member userId/displayName only, without emails |
 | GET /{projectId}/recruitment | Association member; summary, recruitment call and positions |

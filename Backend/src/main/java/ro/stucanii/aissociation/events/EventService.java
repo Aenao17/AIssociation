@@ -101,6 +101,16 @@ public class EventService {
     }
 
     @Transactional
+    public void delete(UUID association, UUID id, AuthenticatedUser actor) {
+        locked(association, id, actor);
+        try {
+            jdbc.sql("DELETE FROM events WHERE id = ? AND association_id = ?").params(id, association).update();
+        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+            throw conflict("EVENT_IN_USE", "Other records reference this event; cancel it instead of deleting it.");
+        }
+    }
+
+    @Transactional
     public EventDtos.OrganizerEvent transition(UUID association, UUID id, String action, AuthenticatedUser actor) {
         var old=locked(association,id,actor);
         String status=old.event().status();

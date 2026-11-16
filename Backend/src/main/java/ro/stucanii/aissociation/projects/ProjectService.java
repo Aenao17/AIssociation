@@ -61,10 +61,34 @@ public class ProjectService {
     @Transactional
     public ProjectDtos.Overview edit(UUID associationId, UUID projectId, ProjectDtos.EditProject request, AuthenticatedUser actor) {
         lock(associationId, projectId);
-        access.requireManager(associationId, projectId, actor.id());
+        if (access.requireScope(associationId, projectId, actor.id()) != AssociationRole.ADMIN)
+            access.requireManager(associationId, projectId, actor.id());
         jdbc.sql("UPDATE projects SET name = ?, description = ? WHERE id = ?")
                 .params(request.name().strip(), request.description().strip(), projectId).update();
         return overview(associationId, projectId, actor);
+    }
+
+    @Transactional
+    public void delete(UUID associationId, UUID projectId, AuthenticatedUser actor) {
+        lock(associationId, projectId);
+        associations.requireAdmin(associationId, actor.id());
+        for (String table : List.of("project_applications", "tasks", "conversations", "events")) {
+            if (jdbc.sql("SELECT COUNT(*) FROM " + table + " WHERE project_id = ?")
+                    .param(projectId).query(Long.class).single() > 0)
+                throw conflict("PROJECT_IN_USE", "This project has applications, tasks, conversations or events. Preserve or remove those records before deleting it.");
+        }
+        if (jdbc.sql("SELECT COUNT(*) FROM project_memberships WHERE project_id = ? AND project_role <> 'PROJECT_MANAGER'")
+                .param(projectId).query(Long.class).single() > 0)
+            throw conflict("PROJECT_IN_USE", "This project has team members and cannot be deleted.");
+        // Delete only unused configuration and root appointments, never operational history.
+        try {
+            jdbc.sql("DELETE FROM project_memberships WHERE project_id = ?").param(projectId).update();
+            jdbc.sql("DELETE FROM recruitment_positions WHERE project_id = ?").param(projectId).update();
+            jdbc.sql("DELETE FROM project_departments WHERE project_id = ?").param(projectId).update();
+            jdbc.sql("DELETE FROM projects WHERE id = ? AND association_id = ?").params(projectId, associationId).update();
+        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+            throw conflict("PROJECT_IN_USE", "Other records still reference this project; it was not deleted.");
+        }
     }
 
     @Transactional

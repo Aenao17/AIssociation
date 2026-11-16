@@ -308,6 +308,32 @@ class ProjectWorkflowTests {
         try { service.accept(A, project, id, new ProjectDtos.Supervisor(parent), actor(user)); return 200; }
         catch (ApiException ex) { return ex.status().value(); }
     }
+
+    @Test
+    void adminCanEditAndDeleteUnusedProjectButOtherRolesCannotDelete() throws Exception {
+        for (int user : List.of(3, 5, 2, 9)) {
+            mvc.perform(delete(path()).header("Authorization", bearer(user))).andExpect(status().isForbidden());
+        }
+        mvc.perform(patch(path()).header("Authorization", bearer(1)).contentType("application/json")
+                .content("{\"name\":\"Renamed\",\"description\":\"Updated details\"}"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.project.name").value("Renamed"));
+        mvc.perform(delete(path()).header("Authorization", bearer(1))).andExpect(status().isNoContent());
+        mvc.perform(get(path() + "/recruitment").header("Authorization", bearer(1))).andExpect(status().isNotFound());
+        assertEquals(0L, jdbc.sql("SELECT COUNT(*) FROM project_memberships WHERE project_id = ?").param(project).query(Long.class).single());
+        assertEquals(0L, jdbc.sql("SELECT COUNT(*) FROM recruitment_positions WHERE project_id = ?").param(project).query(Long.class).single());
+        assertEquals(1L, jdbc.sql("SELECT COUNT(*) FROM projects WHERE id = ?").param(otherProject).query(Long.class).single());
+    }
+
+    @Test
+    void deletingProjectWithApplicationsRejectsWithoutLosingConfiguration() throws Exception {
+        apply(6, engineeringPosition);
+        mvc.perform(delete(path()).header("Authorization", bearer(1))).andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("PROJECT_IN_USE"));
+        assertEquals(2, service.overview(A, project, actor(1)).positions().size());
+        assertEquals(2, access.team(project).size());
+        assertEquals(1, service.applications(A, project, true, actor(6)).size());
+        mvc.perform(delete(base() + "/" + foreignProject).header("Authorization", bearer(1))).andExpect(status().isNotFound());
+    }
     private UUID acceptMember(int user, UUID position, UUID parent) {
         var application = apply(user, position);
         service.accept(A, project, application.id(), new ProjectDtos.Supervisor(parent), actor(3));
