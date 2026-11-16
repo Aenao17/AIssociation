@@ -11,6 +11,7 @@ import WorkspacePage from './pages/WorkspacePage';
 import ProjectPages from './projects/ProjectPages';
 import ResearchPage from './research/ResearchPage';
 import ResearchResponsesPage from './research/ResearchResponsesPage';
+import ProjectTasksPage from './tasks/ProjectTasksPage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -59,6 +60,7 @@ const App: React.FC = () => (
           <Route path="/workspaces/:slug" element={<WorkspacePage />} />
           <Route path="/workspaces/:slug/projects" element={<ProjectPages />} />
           <Route path="/workspaces/:slug/projects/:projectId" element={<ProjectPages />} />
+          <Route path="/workspaces/:slug/projects/:projectId/tasks" element={<ProjectTasksPage />} />
           <Route path="/admin/associations" element={<PlatformAssociationsPage />} />
           <Route path="/" element={<Navigate to="/home" replace />} />
         </IonRouterOutlet>

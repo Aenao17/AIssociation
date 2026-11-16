@@ -173,3 +173,75 @@
   suite run. Exact model identifier must come from session metadata.
 - Contract: docs/contracts/research-form.md. Review code and explain the workflow
   before presenting it as an individual contribution.
+
+## 16 November 2026 — Tudor's FR-08/FR-09 task backend
+
+- Owner: Tudor. Implementation prepared with Claude Code (model: Claude Opus 5.5)
+  assistance; student review, understanding and technical defense remain required.
+- Purpose: task persistence, API and reporting-branch authorization.
+- Human direction: reuse Raul's `ProjectAccess.isStrictDescendant` as the single
+  source of branch truth; keep the "My tasks" frontend screen reserved as Tudor's
+  independent no-GenAI feature (only its backend endpoint `GET /tasks/mine` was
+  AI-assisted).
+- Decisions (confirmed by Tudor): hidden tasks return 404; project/department
+  managers may self-assign; a removed member's tasks stay visible to ADMIN and their
+  former managers for reassignment (new `ProjectAccess.isStrictDescendantOrFormerMember`,
+  existing method unchanged); tasks can be deleted by whoever may manage them;
+  writes reuse the association→project lock order. See `docs/contracts/tasks.md`.
+- Verification: Maven test, 55 tests passing (10 new in `TaskApiTests`, covering the
+  authorization matrix). Raul's V1→V2 upgrade test was pinned to target V2 so the
+  new V3 migration does not change its assertion.
+- Limits: not yet run against PostgreSQL; no task frontend yet; migration number
+  messaging backend not started. Migration number V3 confirmed with Raul.
+
+## 16 November 2026 — Tudor's project tasks screen
+
+- Owner: Tudor. Implementation prepared with Claude Code (model: Claude Opus 5.5)
+  assistance, written in a plain style without comments at Tudor's request;
+  student review, understanding and technical defense remain required.
+- Purpose: FR-08/FR-09 user interface for the task API inside a project.
+- Delivered: `ProjectTasksPage` with status columns, create form for managers/ADMIN,
+  status change, edit/reassign, two-step delete, overdue highlight; route in
+  `App.tsx`; "Open tasks" link added to Raul's project page (coordinate with Raul).
+- Verification: frontend unit tests 32 passing (6 new in `ProjectTasksPage.test.tsx`),
+  eslint, e2e typecheck and production build pass. Prettier passes for the new files;
+  three pre-existing CSS files still report formatting issues on main.
+- Browser check (local PostgreSQL 17 in Docker, backend :8080, Vite :5173, Chrome,
+  synthetic `@example.test` accounts seeded through the public API): Flyway applied
+  V1–V3; project manager opened tasks from the project page, saw self + both members
+  as assignees, created one task per member; a member saw only their own task with
+  status control only (no create/edit/delete) and moved it to In progress; database
+  rows matched (deadline stored in UTC). Browser console showed no application errors.
+- Limits: edit/delete and multi-level branches were not clicked through in the
+  browser (covered by backend tests); no Playwright scenario. The "My tasks" screen
+  remains Tudor's independent no-GenAI feature and was not generated.
+
+## 16 November 2026 — Tudor's FR-15 messaging backend
+
+- Owner: Tudor (backend); UI is Denisa's. Implementation prepared with Claude Code
+  (model: Claude Opus 5.5) assistance; student review, understanding and technical
+  defense remain required.
+- Purpose: one conversation/message backend for association, project, department,
+  custom-group and direct chats, so the messaging UI can be built against it.
+- Decisions: audiences for built-in chats derived live from memberships and Raul's
+  `ProjectAccess` audience helpers; group/direct members tied to the live association
+  membership (removal revokes, rejoin does not revive groups); inaccessible
+  conversations return 404; polling with a message `seq` cursor; group creator
+  manages members. Plan defaults, still to confirm with Gabriel/Denisa.
+  See `docs/contracts/messaging.md`.
+- Verification: Maven test, 63 tests passing (8 new in `MessagingApiTests`).
+  Local PostgreSQL 17 smoke test through the API: V4 applied; six concurrent first
+  listings created exactly one conversation per scope; send/poll with `after`,
+  ADMIN and outsider denial (404), direct-pair uniqueness and group creation checked.
+- Limits: no messaging UI yet (Denisa); migration number V4 to confirm with Raul;
+  no message edit/delete, attachments or push.
+
+## 16 November 2026 — Tudor's migrations renumbered after merging main
+
+- Main received Gabriel's `V3__research_responses.sql` while tasks/messaging were on
+  a feature branch. Merged main and renumbered Tudor's migrations: tasks V3 → `V4__tasks.sql`,
+  messaging V4 → `V5__messaging.sql`. Neither depends on the research tables.
+  Earlier log entries keep the numbers that were in use at the time.
+- Coordination: Raul to record V4/V5 for Tudor; next free migration number is V6.
+- Local databases that applied the old V3 tasks / V4 messaging must be reset
+  (synthetic data only) before running this branch.

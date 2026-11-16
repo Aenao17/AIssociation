@@ -119,6 +119,7 @@ and project ID; helpers resolve live scope before granting access.
 | requireTeamMember(associationId, projectId, actorId) | Active project membership, returned as TeamMember |
 | requireDetailAccess(associationId, projectId, actorId) | Active team or association ADMIN; use for authorized team/detail reads |
 | isStrictDescendant(associationId, projectId, managerUserId, targetUserId) | Strict reporting ancestry; self/peers/other branches/inactive intermediates are false |
+| isStrictDescendantOrFormerMember(associationId, projectId, managerUserId, targetUserId) | Same, but the target may be a removed member (ancestry from their retained row through active managers). Added by Tudor for orphaned tasks |
 | projectAudienceUserIds(associationId, projectId, actorId) | Current active project audience; authorized team/admin caller |
 | departmentAudienceUserIds(associationId, projectId, departmentId, actorId) | Current department plus active project managers; caller must be in that department, root manager or association ADMIN |
 
