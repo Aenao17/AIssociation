@@ -192,3 +192,23 @@
 - Limits: edit/delete and multi-level branches were not clicked through in the
   browser (covered by backend tests); no Playwright scenario. The "My tasks" screen
   remains Tudor's independent no-GenAI feature and was not generated.
+
+## 16 November 2026 — Tudor's FR-15 messaging backend
+
+- Owner: Tudor (backend); UI is Denisa's. Implementation prepared with Claude Code
+  (model: Claude Opus 5.5) assistance; student review, understanding and technical
+  defense remain required.
+- Purpose: one conversation/message backend for association, project, department,
+  custom-group and direct chats, so the messaging UI can be built against it.
+- Decisions: audiences for built-in chats derived live from memberships and Raul's
+  `ProjectAccess` audience helpers; group/direct members tied to the live association
+  membership (removal revokes, rejoin does not revive groups); inaccessible
+  conversations return 404; polling with a message `seq` cursor; group creator
+  manages members. Plan defaults, still to confirm with Gabriel/Denisa.
+  See `docs/contracts/messaging.md`.
+- Verification: Maven test, 63 tests passing (8 new in `MessagingApiTests`).
+  Local PostgreSQL 17 smoke test through the API: V4 applied; six concurrent first
+  listings created exactly one conversation per scope; send/poll with `after`,
+  ADMIN and outsider denial (404), direct-pair uniqueness and group creation checked.
+- Limits: no messaging UI yet (Denisa); migration number V4 to confirm with Raul;
+  no message edit/delete, attachments or push.
