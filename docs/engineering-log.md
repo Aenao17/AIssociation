@@ -1,5 +1,30 @@
 # Engineering evidence log
 
+## 17 November 2026 — Account, administration and workspace layout
+
+- Reviewed the updated frontend. Added a shared authenticated dashboard shell with
+  aligned branding, account/home return navigation and top-right Sign out. Logout
+  uses the existing auth operation, keeps the session on failure and supports retry.
+- Reworked /account: greeting, two equal side-by-side administration buttons with
+  selected-state feedback, the selected administration panel directly below, and
+  responsive workspace cards. Selection is reflected in the URL search parameters.
+  Existing platform association form and research response list are reused in the
+  inline panels and standalone pages; existing permission gates remain in place.
+- Matched administration/research/workspace spacing, cards, form fields, dropdowns,
+  response disclosures, role badges and navigation to the established palette.
+  Connected the previously missing /admin/research route. Research survey questions,
+  submission form and backend were not changed by this presentation task.
+- Verification: app TypeScript, scoped ESLint/Prettier and production build passed
+  (existing bundle-size warning). Browser checks at 1365px and 390px covered inline
+  panel switching, association creation via intercepted API, workspace navigation,
+  right-aligned logout, failed logout/retry and successful logout. Also checked
+  standalone administration/research routes for admins and ordinary accounts; denied
+  accounts issued no private administration requests. Synthetic intercepted data
+  only; this does not claim new backend or real research evidence. Screenshots inspected.
+- Temporary browser assertions were adjusted to wait for Ionic page transitions
+  and scope text to the visible page; final checks passed. Existing Node 22/jsdom
+  unit-runner limitation remains. No backend changes, deployment or commit.
+
 ## 16 November 2026 — Yasmine completion audit
 
 - Reviewed the current source, routes, event/profile schemas, shared permissions,
