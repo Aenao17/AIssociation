@@ -52,11 +52,26 @@ public class ProjectAccess {
 
     /** Strict ancestry: self, peers, inactive intermediates and other projects are false. */
     public boolean isStrictDescendant(UUID associationId, UUID projectId, UUID managerUserId, UUID targetUserId) {
+        return descends(associationId, projectId, managerUserId, targetUserId, false);
+    }
+
+    /**
+     * Same as isStrictDescendant, but the target may also be a former (inactive) member: ancestry then
+     * starts from their retained reporting row and still passes only through active managers.
+     * Used by tasks so a removed member's former managers keep their open tasks.
+     */
+    public boolean isStrictDescendantOrFormerMember(UUID associationId, UUID projectId, UUID managerUserId, UUID targetUserId) {
+        return descends(associationId, projectId, managerUserId, targetUserId, true);
+    }
+
+    private boolean descends(UUID associationId, UUID projectId, UUID managerUserId, UUID targetUserId, boolean allowInactiveTarget) {
         requireScope(associationId, projectId, managerUserId);
+        var team = team(projectId);
         Map<UUID, ProjectDtos.TeamMember> members = new HashMap<>();
-        team(projectId).stream().filter(ProjectDtos.TeamMember::active).forEach(m -> members.put(m.id(), m));
+        team.stream().filter(ProjectDtos.TeamMember::active).forEach(m -> members.put(m.id(), m));
         var manager = members.values().stream().filter(m -> m.userId().equals(managerUserId)).findFirst();
-        var target = members.values().stream().filter(m -> m.userId().equals(targetUserId)).findFirst();
+        var target = (allowInactiveTarget ? team.stream() : members.values().stream())
+                .filter(m -> m.userId().equals(targetUserId)).findFirst();
         if (manager.isEmpty() || target.isEmpty() || managerUserId.equals(targetUserId)
                 || manager.get().projectRole().equals("MEMBER")) return false;
         UUID cursor = target.get().reportingParentMembershipId();

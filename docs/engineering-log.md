@@ -150,3 +150,23 @@
   Final global lint reports 26 untouched formatting failures; touched-file formatting
   passes. Temporary verification servers, container and anonymous test volume were
   removed; the application's existing database was not used or changed.
+
+## 16 November 2026 — Tudor's FR-08/FR-09 task backend
+
+- Owner: Tudor. Implementation prepared with Claude Code (model: Claude Opus 5.5)
+  assistance; student review, understanding and technical defense remain required.
+- Purpose: task persistence, API and reporting-branch authorization.
+- Human direction: reuse Raul's `ProjectAccess.isStrictDescendant` as the single
+  source of branch truth; keep the "My tasks" frontend screen reserved as Tudor's
+  independent no-GenAI feature (only its backend endpoint `GET /tasks/mine` was
+  AI-assisted).
+- Decisions (confirmed by Tudor): hidden tasks return 404; project/department
+  managers may self-assign; a removed member's tasks stay visible to ADMIN and their
+  former managers for reassignment (new `ProjectAccess.isStrictDescendantOrFormerMember`,
+  existing method unchanged); tasks can be deleted by whoever may manage them;
+  writes reuse the association→project lock order. See `docs/contracts/tasks.md`.
+- Verification: Maven test, 55 tests passing (10 new in `TaskApiTests`, covering the
+  authorization matrix). Raul's V1→V2 upgrade test was pinned to target V2 so the
+  new V3 migration does not change its assertion.
+- Limits: not yet run against PostgreSQL; no task frontend yet; migration number
+  messaging backend not started. Migration number V3 confirmed with Raul.
