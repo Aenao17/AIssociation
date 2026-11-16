@@ -28,6 +28,12 @@ erDiagram
     app_users ||--o{ project_applications : submits
     association_memberships |o--o{ project_applications : submitted_under
 
+    research_responses {
+        UUID id PK
+        TEXT answers
+        TIMESTAMPTZ submitted_at
+    }
+
     app_users {
         UUID id PK
         VARCHAR display_name
@@ -146,9 +152,24 @@ are responsibilities, separate from project permissions.
 
 Indexes support association project listing, parent traversal, account team lookup,
 original membership references, project application review and own applications.
-No production users or passwords are seeded by either migration.
+No production users or passwords are seeded by these migrations.
 Account/project deletion is not added as a workflow; V2 domain FKs retain their
 default restrictive behavior except the explicit membership-reference SET NULL.
+
+## Research response storage
+
+Migration owner: Gabriel. V3 creates `research_responses`:
+
+| Field | Type | Constraints / purpose |
+| --- | --- | --- |
+| id | UUID | Primary key; client-generated submission identifier prevents duplicate retries |
+| answers | TEXT | Required; stores the validated questionnaire answers as JSON |
+| submitted_at | TIMESTAMP WITH TIME ZONE | Required; server-generated submission time |
+
+The `(submitted_at, id)` index supports response listing. Research responses have
+no account or association foreign key because the questionnaire accepts anonymous
+submissions. Field lengths, allowed choices and selection limits are validated by
+the API before insertion.
 
 ## Migration index
 

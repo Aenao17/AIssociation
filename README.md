@@ -218,3 +218,14 @@ Details: [Raul's implementation handoff](RAUL_IMPLEMENTATION.md),
 [API and behavior](docs/contracts/projects-and-reporting.md),
 [ERD/migration index](docs/data-model.md), and
 [PostgreSQL/browser verification setup](docs/testing-projects.md).
+
+## Research questionnaire
+
+The public `/research` page collects feedback without requiring an account.
+Platform administrators can read responses at `/admin/research`, linked from
+My account. Text responses and contact details are optional. Flyway V3 adds
+research storage; no additional environment variables are needed.
+
+See [questions, API, access and verification](docs/contracts/research-form.md).
+This implementation is AI-assisted and does not count as Gabriel’s independent
+no-GenAI feature. Responses collected later do not replace midterm interviews.

@@ -48,6 +48,9 @@ const Home: React.FC = () => {
                 Explore associations
               </Link>
             </div>
+            <p className="identity-help">
+              <Link to="/research">Help shape AIssociation: share your experience</Link>
+            </p>
           </section>
         </main>
       </IonContent>

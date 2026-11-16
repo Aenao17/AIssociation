@@ -40,6 +40,10 @@ export default function AccountPage(): ReactElement {
                 <Link className="identity-admin-link" to="/admin/associations">
                   Platform administration →
                 </Link>
+                <br />
+                <Link className="identity-admin-link" to="/admin/research">
+                  Research responses →
+                </Link>
               </p>
             )}
             <h2>Association memberships</h2>

@@ -12,6 +12,8 @@ import Home from './pages/Home';
 import PlatformAssociationsPage from './pages/PlatformAssociationsPage';
 import WorkspacePage from './pages/WorkspacePage';
 import ProjectPages from './projects/ProjectPages';
+import ResearchPage from './research/ResearchPage';
+import ResearchResponsesPage from './research/ResearchResponsesPage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
