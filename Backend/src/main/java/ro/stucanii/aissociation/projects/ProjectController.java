@@ -29,6 +29,12 @@ public class ProjectController {
     @GetMapping("/{projectId}")
     ResponseEntity<ProjectDtos.Overview> detail(@PathVariable UUID associationId, @PathVariable UUID projectId,
             @AuthenticationPrincipal AuthenticatedUser actor) { return ok(service.detail(associationId, projectId, actor)); }
+    @DeleteMapping("/{projectId}")
+    ResponseEntity<Void> delete(@PathVariable UUID associationId, @PathVariable UUID projectId,
+            @AuthenticationPrincipal AuthenticatedUser actor) {
+        service.delete(associationId, projectId, actor);
+        return ResponseEntity.noContent().cacheControl(CacheControl.noStore()).build();
+    }
     @PatchMapping("/{projectId}")
     ResponseEntity<ProjectDtos.Overview> edit(@PathVariable UUID associationId, @PathVariable UUID projectId,
             @Valid @RequestBody ProjectDtos.EditProject body, @AuthenticationPrincipal AuthenticatedUser actor) {

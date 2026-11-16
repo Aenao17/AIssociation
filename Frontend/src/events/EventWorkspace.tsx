@@ -352,6 +352,31 @@ function Content({ slug }: { slug: string }): ReactElement {
       setBusy(false);
     }
   }
+  async function remove(item: OrganizerEvent): Promise<void> {
+    if (
+      !workspace ||
+      !window.confirm(`Permanently delete ${item.event.title}? This removes its public page and cannot be undone.`)
+    )
+      return;
+    setBusy(true);
+    setError('');
+    setNotice('');
+    try {
+      await request(`/api/associations/${workspace.associationId}/events/${item.event.id}`, { method: 'DELETE' });
+      setEvents((list) => list.filter((entry) => entry.event.id !== item.event.id));
+      if (editing !== 'new' && editing?.event.id === item.event.id) setEditing(null);
+      setNotice('Event deleted.');
+    } catch (failure) {
+      setError(message(failure));
+      if (failure instanceof ApiError && failure.status === 403) {
+        setEvents([]);
+        setEditing(null);
+        setReload((n) => n + 1);
+      }
+    } finally {
+      setBusy(false);
+    }
+  }
   if (!user) return <Navigate to="/login" replace />;
   return (
     <IonPage>
@@ -425,6 +450,16 @@ function Content({ slug }: { slug: string }): ReactElement {
                         {eventTime(item.event.startsAt, item.event.timeZone)} ({item.event.timeZone})
                       </p>
                       <div className="identity-actions">
+                        <button
+                          className="identity-secondary"
+                          type="button"
+                          disabled={busy}
+                          onClick={() => {
+                            void remove(item);
+                          }}
+                        >
+                          Delete {item.event.title}
+                        </button>
                         {['DRAFT', 'PUBLISHED'].includes(item.event.status) && (
                           <button
                             className="identity-secondary"

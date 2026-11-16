@@ -72,6 +72,39 @@ function requests(auth: AuthState, manage = false) {
 }
 
 describe('projects and recruitment', () => {
+  it('lets an administrator edit details and reports a blocked deletion without navigating away', async () => {
+    const auth = state();
+    requests(auth);
+    const original = vi.mocked(auth.request).getMockImplementation()!;
+    vi.mocked(auth.request).mockImplementation(async (path, options) => {
+      if (path === `${base}/recruitment`) return { ...overview(), associationAdmin: true };
+      if (options?.method === 'DELETE') throw new ApiError(409, 'PROJECT_IN_USE', 'Project has applications.');
+      return original(path, options);
+    });
+    view(auth);
+    await screen.findByRole('heading', { name: 'Edit project details' });
+    fireEvent.change(screen.getByLabelText('Project name'), { target: { value: 'Edited project' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Save project' }));
+    await waitFor(() =>
+      expect(auth.request).toHaveBeenCalledWith(base, {
+        method: 'PATCH',
+        body: JSON.stringify({ name: 'Edited project', description: 'Our project' }),
+      }),
+    );
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Delete project' })).not.toBeDisabled());
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false);
+    try {
+      fireEvent.click(screen.getByRole('button', { name: 'Delete project' }));
+      expect(auth.request).not.toHaveBeenCalledWith(base, { method: 'DELETE' });
+      confirm.mockReturnValue(true);
+      fireEvent.click(screen.getByRole('button', { name: 'Delete project' }));
+      expect(await screen.findByRole('alert')).toHaveTextContent('Project has applications.');
+      expect(screen.getByRole('heading', { name: 'Community fair' })).toBeInTheDocument();
+    } finally {
+      confirm.mockRestore();
+    }
+  });
+
   it('shows recruitment to association members without requesting private team or review data', async () => {
     const auth = state();
     requests(auth);

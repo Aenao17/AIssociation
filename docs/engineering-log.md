@@ -408,3 +408,18 @@
   V2-to-latest upgrade test now runs through V3–V6).
 - Limits: Raul to record V6 for Yasmine. Local databases that applied events as V3
   must be reset (synthetic data only). Next free migration number is V7.
+
+## 17 November 2026 — project and event CRUD completion
+
+- User direction: add project/event CRUD management. Codex-assisted changes reuse
+  existing create/read/update flows and add confirmed deletion, plus administrator
+  project-detail editing without granting event/recruitment manager permissions.
+- Project deletion rejects dependent applications/team/tasks/chat/events with 409;
+  event deletion retains existing organizer authorization. Scoped transactions and
+  foreign keys protect unrelated records. No migrations were changed.
+- Verification: Java 17 Maven verify passed 82 tests; 26 project/event tests passed
+  on isolated PostgreSQL 17; frontend 55 tests, build, ESLint, TypeScript and touched
+  file formatting passed. No browser/hosted checks performed for this increment.
+- CRUD_MANAGEMENT.md and both contracts document final behavior and limitations.
+  Temporary PostgreSQL container/data removed. Work is local and uncommitted;
+  human review and independent assessment claims remain outside this contribution.

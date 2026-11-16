@@ -79,6 +79,22 @@ class EventWorkflowTests {
             .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         return "Bearer "+JsonPath.read(response,"$.accessToken");
     }
+    @Test void organizerCanDeletePublishedEventButUnrelatedUsersCannot() throws Exception {
+        var event = events.create(a, body(project, "Delete me", null), actor(3));
+        UUID id = event.event().id();
+        events.transition(a, id, "publish", actor(3));
+        for (int n : List.of(1, 2, 4, 5)) {
+            mvc.perform(delete(base()+"/"+id).header("Authorization",bearer(n))).andExpect(status().isForbidden());
+        }
+        mvc.perform(delete(base()+"/"+id)).andExpect(status().isUnauthorized());
+        mvc.perform(delete(base()+"/"+id).header("Authorization",bearer(3))).andExpect(status().isNoContent());
+        mvc.perform(get("/api/public/events/"+id)).andExpect(status().isNotFound());
+        assertTrue(events.list(a, actor(3)).isEmpty());
+        mvc.perform(delete(base()+"/"+id).header("Authorization",bearer(3))).andExpect(status().isNotFound());
+        var standalone = events.create(a, body(null, "Standalone", null), actor(1));
+        mvc.perform(delete(base()+"/"+standalone.event().id()).header("Authorization",bearer(1))).andExpect(status().isNoContent());
+    }
+
     @Test void standaloneCreateEditPublishWorksWithoutApprovalAndDraftIsPrivate() throws Exception {
         String created=mvc.perform(post(base()).header("Authorization",bearer(1)).contentType("application/json").content(json(null,"First",null)))
             .andExpect(status().isCreated()).andExpect(jsonPath("$.event.status").value("DRAFT")).andExpect(header().string("Cache-Control","no-store"))

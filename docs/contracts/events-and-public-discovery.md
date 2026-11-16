@@ -34,6 +34,7 @@ project and its event belong to the same association.
 | GET /api/associations/{associationId}/events/{id} | Authorized organizer event |
 | POST /api/associations/{associationId}/events | Create DRAFT, 201 |
 | PUT /api/associations/{associationId}/events/{id} | Replace editable fields, 200 |
+| DELETE /api/associations/{associationId}/events/{id} | Same organizer permission as edit; permanently delete, 204; subsequent public/private lookups return 404 |
 | POST /api/associations/{associationId}/events/{id}/publish | Immediate publication without approval |
 | POST /api/associations/{associationId}/events/{id}/cancel | Terminal cancellation of published event |
 | POST /api/associations/{associationId}/events/{id}/complete | Complete published event only after its end |

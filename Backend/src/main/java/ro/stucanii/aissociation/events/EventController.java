@@ -33,4 +33,10 @@ public class EventController {
     ResponseEntity<EventDtos.OrganizerEvent> transition(@PathVariable UUID associationId,@PathVariable UUID id,@PathVariable String action,@AuthenticationPrincipal AuthenticatedUser actor) {
         return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(events.transition(associationId,id,action,actor));
     }
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> delete(@PathVariable UUID associationId, @PathVariable UUID id,
+            @AuthenticationPrincipal AuthenticatedUser actor) {
+        events.delete(associationId, id, actor);
+        return ResponseEntity.noContent().cacheControl(CacheControl.noStore()).build();
+    }
 }

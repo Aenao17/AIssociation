@@ -391,6 +391,7 @@ function TeamRow({
 
 function ProjectDetail({ slug, projectId }: { slug: string; projectId: string }): ReactElement {
   const { user, request } = useAuth();
+  const navigate = useNavigate();
   const [overview, setOverview] = useState<ProjectOverview | null>(null);
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
   const [team, setTeam] = useState<TeamMember[]>([]);
@@ -767,6 +768,39 @@ function ProjectDetail({ slug, projectId }: { slug: string; projectId: string })
             )}
             {overview.associationAdmin && (
               <section className="project-panel" aria-labelledby="appointment-title">
+                {!canManage && (
+                  <form
+                    onSubmit={(event) => {
+                      event.preventDefault();
+                      void run(() => request(base, json('PATCH', { name, description })), 'Project updated.');
+                    }}
+                  >
+                    <h2>Edit project details</h2>
+                    <fieldset disabled={busy}>
+                      <label>
+                        Project name
+                        <input
+                          required
+                          maxLength={150}
+                          value={name}
+                          onChange={(event) => setName(event.target.value)}
+                        />
+                      </label>
+                      <label>
+                        Description
+                        <textarea
+                          required
+                          maxLength={5000}
+                          value={description}
+                          onChange={(event) => setDescription(event.target.value)}
+                        />
+                      </label>
+                      <button type="submit" className="identity-secondary">
+                        Save project
+                      </button>
+                    </fieldset>
+                  </form>
+                )}
                 <h2 id="appointment-title">Appoint a project manager</h2>
                 <form
                   onSubmit={(event) => {
@@ -794,6 +828,29 @@ function ProjectDetail({ slug, projectId }: { slug: string; projectId: string })
                     </button>
                   </fieldset>
                 </form>
+                <h3>Delete project</h3>
+                <p>
+                  Deletion is permanent. Projects with applications, team members, tasks, conversations or events cannot
+                  be deleted.
+                </p>
+                <button
+                  type="button"
+                  className="identity-secondary"
+                  disabled={busy}
+                  onClick={() => {
+                    if (!window.confirm(`Permanently delete ${overview.project.name}? This cannot be undone.`)) return;
+                    setBusy(true);
+                    setError('');
+                    void request(base, json('DELETE'))
+                      .then(() => {
+                        navigate(`/workspaces/${encodeURIComponent(slug)}/projects`, { replace: true });
+                      })
+                      .catch((failure: unknown) => setError(failureMessage(failure)))
+                      .finally(() => setBusy(false));
+                  }}
+                >
+                  Delete project
+                </button>
               </section>
             )}
           </div>
