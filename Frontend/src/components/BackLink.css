@@ -1,0 +1,35 @@
+.identity-shell .back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid color-mix(in srgb, var(--brand-accent) 18%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--brand-accent) 5%, var(--color-surface));
+  color: var(--brand-accent-hover);
+  font: 600 14px/1.4 var(--font-sans);
+  text-decoration: none;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.identity-shell .back-link:hover {
+  background: color-mix(in srgb, var(--brand-accent) 10%, var(--color-surface));
+  border-color: color-mix(in srgb, var(--brand-accent) 40%, transparent);
+}
+
+.back-link svg {
+  flex-shrink: 0;
+  transition: transform 160ms ease;
+}
+
+.back-link:hover svg { transform: translateX(-2px); }
+.identity-shell .back-link-forward { flex-direction: row-reverse; }
+.back-link-forward:hover svg { transform: translateX(2px); }
+.identity-shell .back-link:focus-visible { outline: 3px solid var(--brand-focus); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .identity-shell .back-link, .back-link svg { transition: none; }
+  .back-link:hover svg, .back-link-forward:hover svg { transform: none; }
+}

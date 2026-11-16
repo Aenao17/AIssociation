@@ -1,7 +1,8 @@
 ﻿# Data model and migration index
 
 Owner/coordinator: Raul. Updated 16 November 2026.
-Physical model below matches V1 and V2 SQL, rather than a future domain proposal.
+Physical model below matches V1–V3 SQL. V3 is Yasmine's local allocation pending
+reconciliation with the migration coordinator before shared application.
 
 ## Relationships
 
@@ -11,6 +12,8 @@ erDiagram
     app_users ||--o{ association_memberships : holds
     associations ||--o{ association_memberships : contains
     associations ||--o{ projects : owns
+    associations ||--o{ events : publishes
+    projects |o--o{ events : contains
     projects ||--o{ project_departments : defines
     projects ||--o{ recruitment_positions : offers
     project_departments ||--o{ recruitment_positions : groups
@@ -43,7 +46,25 @@ erDiagram
         UUID id PK
         VARCHAR name
         VARCHAR slug UK
+        VARCHAR description
+        VARCHAR website "nullable"
         TIMESTAMPTZ created_at
+    }
+    events {
+        UUID id PK
+        UUID association_id FK
+        UUID project_id FK "nullable; same association"
+        VARCHAR title
+        VARCHAR description
+        VARCHAR location
+        TIMESTAMPTZ starts_at
+        TIMESTAMPTZ ends_at
+        VARCHAR time_zone
+        TIMESTAMPTZ registration_deadline
+        INTEGER capacity "nullable means unlimited"
+        VARCHAR status
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
     }
     association_memberships {
         UUID id PK
@@ -97,8 +118,8 @@ erDiagram
     }
 ~~~
 
-This diagram does not show event/task/message tables: those owners have not
-introduced their schemas in this checkout. Optional FK relationships retain
+This diagram does not show registration/task/message tables, which remain other
+owners' work packages. Optional FK relationships retain
 history; service rules are stricter than ERD cardinality for active accepted members.
 
 ## Constraints and behavior
@@ -135,7 +156,8 @@ default restrictive behavior except the explicit membership-reference SET NULL.
 | --- | --- | --- | --- |
 | V1 | [V1__identity_foundation.sql](../Backend/src/main/resources/db/migration/V1__identity_foundation.sql) | Gabriel | Existing identity/session/association foundation; unchanged |
 | V2 | [V2__projects_recruitment_reporting.sql](../Backend/src/main/resources/db/migration/V2__projects_recruitment_reporting.sql) | Raul | Depends on V1; projects, configurable departments/positions, team/reporting and applications; verified locally on H2/PostgreSQL |
-| Unallocated | Events, registration, tasks and messages | Respective owners; Raul coordinates | Supply schema dependencies before allocating numbers; no implied reservations here |
+| V3 | [V3__events_public_profiles.sql](../Backend/src/main/resources/db/migration/V3__events_public_profiles.sql) | Yasmine | Local allocation; adds events/profile fields, composite project/association FK and discovery indexes. Reconcile with Raul before shared application. H2 verification; PostgreSQL check remains pending |
+| Unallocated | Registration, tasks and messages | Respective owners; Raul coordinates | Supply schema dependencies before allocating numbers; no implied reservations here |
 
 Coordinate V2 with other owners before merging/applying across shared environments;
 the local repository had only V1 when V2 was allocated. No external migration

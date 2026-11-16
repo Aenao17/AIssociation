@@ -10,31 +10,43 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonContent>
-        <main className="identity-shell identity-home">
-          <BrandHeader wide />
+        <main className="identity-shell identity-home events-shell">
+          <BrandHeader
+            wide
+            actions={
+              <nav className="homepage-account-nav" aria-label="Account">
+                {user ? (
+                  <Link className="identity-primary" to="/account">
+                    My account
+                  </Link>
+                ) : (
+                  <>
+                    <Link className="identity-secondary homepage-signin" to="/login">
+                      Sign in
+                    </Link>
+                    <Link className="identity-primary" to="/register">
+                      Create account
+                    </Link>
+                  </>
+                )}
+              </nav>
+            }
+          />
           <section className="identity-card identity-landing">
             <p className="identity-eyebrow">For student communities</p>
             <h1>
               Your associations.
               <br />
-              One account.
+              <span className="identity-hero-accent">One account.</span>
             </h1>
             <p className="identity-intro">One place for your account and student association memberships.</p>
             <div className="identity-actions">
-              {user ? (
-                <Link className="identity-primary" to="/account">
-                  My account
-                </Link>
-              ) : (
-                <>
-                  <Link className="identity-primary" to="/register">
-                    Create an account
-                  </Link>
-                  <Link className="identity-text-action" to="/login">
-                    Sign in
-                  </Link>
-                </>
-              )}
+              <Link className="identity-primary" to="/events">
+                Discover events
+              </Link>
+              <Link className="identity-secondary" to="/associations">
+                Explore associations
+              </Link>
             </div>
           </section>
         </main>
