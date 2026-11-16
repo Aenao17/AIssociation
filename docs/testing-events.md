@@ -27,7 +27,7 @@ $env:EVENTS_TEST_DB_PASSWORD = 'synthetic_local_only'
 ```
 
 The test covers the composite FK, timestamps, transactional mutation behavior and
-public/organizer workflows on the selected database. Its separate V2->V3 migration
+public/organizer workflows on the selected database. Its separate V2->V6 migration
 retention check uses H2; also rehearse that upgrade on a disposable PostgreSQL
 database before shared release. Do not claim H2 is PostgreSQL evidence.
 

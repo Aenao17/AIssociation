@@ -395,3 +395,16 @@
 - Coordination: Raul to record V4/V5 for Tudor; next free migration number is V6.
 - Local databases that applied the old V3 tasks / V4 messaging must be reset
   (synthetic data only) before running this branch.
+
+## 16 November 2026 — Duplicate V3 migration on main resolved
+
+- Purpose: main had two Flyway version-3 files (`V3__research_responses.sql` from PR #8
+  and `V3__events_public_profiles.sql` from PR #10), so Flyway refused to migrate
+  and the backend could not start.
+- Decision: research V3 reached main first and stays. Events renamed to
+  `V6__events_public_profiles.sql` (content unchanged), after tasks V4 and messaging V5.
+  It depends only on V1/V2. Contract, data model, README and testing docs updated.
+- Verification: Maven verify, 79 tests passing (incl. 9 `EventWorkflowTests`, whose
+  V2-to-latest upgrade test now runs through V3–V6).
+- Limits: Raul to record V6 for Yasmine. Local databases that applied events as V3
+  must be reset (synthetic data only). Next free migration number is V7.

@@ -180,7 +180,7 @@ active project managers manage events for their own projects. The same screen
 lets administrators edit public presentation fields. Registration/attendance
 remain Denisa's integration; the public page does not offer a fake registration.
 
-Flyway V3 adds events/public-profile fields without modifying V1/V2. Reconcile its
+Flyway V6 (originally V3) adds events/public-profile fields without modifying V1–V5. Reconcile its
 local allocation with Raul before shared application. See the contract for recorded
 lifecycle, deadline, timezone and capacity defaults.
 
