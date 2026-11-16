@@ -539,6 +539,14 @@ function ProjectDetail({ slug, projectId }: { slug: string; projectId: string })
             >
               Refresh project
             </button>
+            {overview.project.canOpen && (
+              <Link
+                className="identity-primary"
+                to={`/workspaces/${encodeURIComponent(slug)}/projects/${overview.project.id}/tasks`}
+              >
+                Open tasks
+              </Link>
+            )}
           </header>
           <div className="project-columns">
             <section className="project-panel" aria-labelledby="recruitment-title">

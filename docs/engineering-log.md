@@ -170,3 +170,25 @@
   new V3 migration does not change its assertion.
 - Limits: not yet run against PostgreSQL; no task frontend yet; migration number
   messaging backend not started. Migration number V3 confirmed with Raul.
+
+## 16 November 2026 — Tudor's project tasks screen
+
+- Owner: Tudor. Implementation prepared with Claude Code (model: Claude Opus 5.5)
+  assistance, written in a plain style without comments at Tudor's request;
+  student review, understanding and technical defense remain required.
+- Purpose: FR-08/FR-09 user interface for the task API inside a project.
+- Delivered: `ProjectTasksPage` with status columns, create form for managers/ADMIN,
+  status change, edit/reassign, two-step delete, overdue highlight; route in
+  `App.tsx`; "Open tasks" link added to Raul's project page (coordinate with Raul).
+- Verification: frontend unit tests 32 passing (6 new in `ProjectTasksPage.test.tsx`),
+  eslint, e2e typecheck and production build pass. Prettier passes for the new files;
+  three pre-existing CSS files still report formatting issues on main.
+- Browser check (local PostgreSQL 17 in Docker, backend :8080, Vite :5173, Chrome,
+  synthetic `@example.test` accounts seeded through the public API): Flyway applied
+  V1–V3; project manager opened tasks from the project page, saw self + both members
+  as assignees, created one task per member; a member saw only their own task with
+  status control only (no create/edit/delete) and moved it to In progress; database
+  rows matched (deadline stored in UTC). Browser console showed no application errors.
+- Limits: edit/delete and multi-level branches were not clicked through in the
+  browser (covered by backend tests); no Playwright scenario. The "My tasks" screen
+  remains Tudor's independent no-GenAI feature and was not generated.

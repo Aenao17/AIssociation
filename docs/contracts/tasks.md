@@ -122,3 +122,15 @@ Migration `V3__tasks.sql` (number confirmed with Raul): table `tasks`
 (`project_id`, `assignee_user_id`, `created_by_user_id`, `title`, `description`,
 `due_at`, `status`, timestamps), indexed on `(project_id, assignee_user_id)` and
 `assignee_user_id`.
+
+## Frontend
+
+Route `/workspaces/:slug/projects/:projectId/tasks` (`Frontend/src/tasks/ProjectTasksPage.tsx`),
+opened from the "Open tasks" link on the project page (shown when `canOpen`).
+
+- Board with To do / In progress / Done columns built from `GET …/tasks`.
+- "New task" form appears only when `assignee-options` is not empty (managers, ADMIN).
+- Status select when `canChangeStatus`; Edit and two-step Delete when `canManage`.
+- Overdue open tasks are highlighted. Server errors are shown using their `message`.
+- The association-wide "My tasks" screen (`GET /tasks/mine`) is Tudor's separate
+  independent feature and is not part of this page.

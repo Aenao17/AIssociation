@@ -1,0 +1,23 @@
+.task-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 24px auto;
+  align-items: start;
+}
+.task-card h3 {
+  margin: 0 0 8px;
+}
+.task-card p {
+  margin: 6px 0;
+}
+.task-overdue {
+  color: var(--ion-color-danger);
+  font-weight: 700;
+}
+@media (max-width: 900px) {
+  .task-board {
+    grid-template-columns: 1fr;
+  }
+}
