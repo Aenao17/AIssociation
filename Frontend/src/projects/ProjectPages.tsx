@@ -1,11 +1,11 @@
-import { IonContent, IonPage } from '@ionic/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { FormEvent, ReactElement, ReactNode } from 'react';
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Link, Navigate, NavLink, useNavigate, useParams } from 'react-router-dom';
 
 import { ApiError } from '../auth/client';
 import { useAuth } from '../auth/useAuth';
-import BrandHeader from '../components/BrandHeader';
+import BackLink from '../components/BackLink';
+import DashboardShell from '../components/DashboardShell';
 import type { Workspace } from '../workspaces/types';
 
 import { applicationStatus } from './types';
@@ -27,18 +27,17 @@ const localDateInput = (value: string | null): string => {
 
 function Shell({ slug, children }: { slug: string; children: ReactNode }): ReactElement {
   return (
-    <IonPage>
-      <IonContent>
-        <main className="identity-shell projects-shell">
-          <BrandHeader wide />
-          <nav className="project-nav" aria-label="Workspace navigation">
-            <Link to={`/workspaces/${encodeURIComponent(slug)}`}>Workspace</Link>
-            <Link to={`/workspaces/${encodeURIComponent(slug)}/projects`}>Projects</Link>
-          </nav>
-          {children}
-        </main>
-      </IonContent>
-    </IonPage>
+    <DashboardShell>
+      <div className="projects-shell">
+        <nav className="project-nav" aria-label="Workspace navigation">
+          <BackLink to={`/workspaces/${encodeURIComponent(slug)}`}>Workspace</BackLink>
+          <NavLink className="project-nav-link" end to={`/workspaces/${encodeURIComponent(slug)}/projects`}>
+            Projects &amp; recruitment
+          </NavLink>
+        </nav>
+        {children}
+      </div>
+    </DashboardShell>
   );
 }
 
@@ -111,9 +110,12 @@ function ProjectList({ slug }: { slug: string }): ReactElement {
   if (!user) return <Navigate to="/login" replace />;
   return (
     <Shell slug={slug}>
-      <header className="project-heading">
-        <p className="identity-eyebrow">{workspace?.name ?? 'Association workspace'}</p>
-        <h1>Projects & recruitment</h1>
+      <header className="project-heading project-list-heading">
+        <div>
+          <p className="identity-eyebrow">{workspace?.name ?? 'Association workspace'}</p>
+          <h1>Projects & recruitment</h1>
+          <p className="project-heading-intro">Find a position, apply, and build your association’s project team.</p>
+        </div>
         <button
           type="button"
           className="identity-secondary"
@@ -122,7 +124,6 @@ function ProjectList({ slug }: { slug: string }): ReactElement {
         >
           Refresh projects
         </button>
-        <p>Find a position, apply, and build your association’s project team.</p>
       </header>
       {error && (
         <p className="identity-error" role="alert">
@@ -132,15 +133,25 @@ function ProjectList({ slug }: { slug: string }): ReactElement {
       {loading ? (
         <p role="status">Loading projects…</p>
       ) : (
-        <div className="project-columns">
-          <section className="project-panel" aria-labelledby="projects-title">
-            <h2 id="projects-title">Association projects</h2>
-            {!projects.length && <p>No projects yet. An association administrator can create the first one.</p>}
+        <div className={`project-directory${workspace?.role === 'ADMIN' ? ' project-directory-admin' : ''}`}>
+          <section className="project-panel project-collection" aria-labelledby="projects-title">
+            <div className="project-panel-heading">
+              <h2 id="projects-title">Association projects</h2>
+              <span className="project-count" aria-label={`${projects.length} projects`}>
+                {projects.length}
+              </span>
+            </div>
+            {!projects.length && (
+              <p className="project-empty">No projects yet. An association administrator can create the first one.</p>
+            )}
             <ul className="project-list">
               {projects.map((project) => (
                 <li key={project.id}>
                   <h3>
-                    <Link to={`/workspaces/${encodeURIComponent(slug)}/projects/${project.id}`}>{project.name}</Link>
+                    <Link to={`/workspaces/${encodeURIComponent(slug)}/projects/${project.id}`}>
+                      {project.name}
+                      <span aria-hidden="true"> →</span>
+                    </Link>
                   </h3>
                   <p className="project-prose">{project.description}</p>
                   {project.canManage && <span className="project-badge">You manage this project</span>}
@@ -152,7 +163,7 @@ function ProjectList({ slug }: { slug: string }): ReactElement {
             </ul>
           </section>
           {workspace?.role === 'ADMIN' && (
-            <section className="project-panel" aria-labelledby="create-project-title">
+            <section className="project-panel project-create" aria-labelledby="create-project-title">
               <h2 id="create-project-title">Create a project</h2>
               <p>Appoint at least one existing association member as project manager.</p>
               <form
@@ -529,25 +540,27 @@ function ProjectDetail({ slug, projectId }: { slug: string; projectId: string })
             </p>
             <h1>{overview.project.name}</h1>
             <p className="project-prose">{overview.project.description}</p>
-            <button
-              type="button"
-              className="identity-secondary"
-              disabled={busy}
-              onClick={() => {
-                setError('');
-                void load().catch((failure) => setError(failureMessage(failure)));
-              }}
-            >
-              Refresh project
-            </button>
-            {overview.project.canOpen && (
-              <Link
-                className="identity-primary"
-                to={`/workspaces/${encodeURIComponent(slug)}/projects/${overview.project.id}/tasks`}
+            <div className="project-heading-actions">
+              <button
+                type="button"
+                className="identity-secondary"
+                disabled={busy}
+                onClick={() => {
+                  setError('');
+                  void load().catch((failure) => setError(failureMessage(failure)));
+                }}
               >
-                Open tasks
-              </Link>
-            )}
+                Refresh project
+              </button>
+              {overview.project.canOpen && (
+                <Link
+                  className="identity-primary"
+                  to={`/workspaces/${encodeURIComponent(slug)}/projects/${overview.project.id}/tasks`}
+                >
+                  Open tasks
+                </Link>
+              )}
+            </div>
           </header>
           <div className="project-columns">
             <section className="project-panel" aria-labelledby="recruitment-title">
@@ -767,7 +780,7 @@ function ProjectDetail({ slug, projectId }: { slug: string; projectId: string })
               </section>
             )}
             {overview.associationAdmin && (
-              <section className="project-panel" aria-labelledby="appointment-title">
+              <section className="project-panel project-administration" aria-labelledby="appointment-title">
                 {!canManage && (
                   <form
                     onSubmit={(event) => {
@@ -828,29 +841,32 @@ function ProjectDetail({ slug, projectId }: { slug: string; projectId: string })
                     </button>
                   </fieldset>
                 </form>
-                <h3>Delete project</h3>
-                <p>
-                  Deletion is permanent. Projects with applications, team members, tasks, conversations or events cannot
-                  be deleted.
-                </p>
-                <button
-                  type="button"
-                  className="identity-secondary"
-                  disabled={busy}
-                  onClick={() => {
-                    if (!window.confirm(`Permanently delete ${overview.project.name}? This cannot be undone.`)) return;
-                    setBusy(true);
-                    setError('');
-                    void request(base, json('DELETE'))
-                      .then(() => {
-                        navigate(`/workspaces/${encodeURIComponent(slug)}/projects`, { replace: true });
-                      })
-                      .catch((failure: unknown) => setError(failureMessage(failure)))
-                      .finally(() => setBusy(false));
-                  }}
-                >
-                  Delete project
-                </button>
+                <div className="project-danger">
+                  <h3>Delete project</h3>
+                  <p>
+                    Deletion is permanent. Projects with applications, team members, tasks, conversations or events
+                    cannot be deleted.
+                  </p>
+                  <button
+                    type="button"
+                    className="identity-secondary"
+                    disabled={busy}
+                    onClick={() => {
+                      if (!window.confirm(`Permanently delete ${overview.project.name}? This cannot be undone.`))
+                        return;
+                      setBusy(true);
+                      setError('');
+                      void request(base, json('DELETE'))
+                        .then(() => {
+                          navigate(`/workspaces/${encodeURIComponent(slug)}/projects`, { replace: true });
+                        })
+                        .catch((failure: unknown) => setError(failureMessage(failure)))
+                        .finally(() => setBusy(false));
+                    }}
+                  >
+                    Delete project
+                  </button>
+                </div>
               </section>
             )}
           </div>

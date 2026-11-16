@@ -1,35 +1,93 @@
-.projects-shell { --control-border: var(--color-border); }
-.project-nav { display: flex; gap: 24px; max-width: 1200px; margin: 24px auto; }
-.project-heading { max-width: 1200px; margin: 32px auto; }
-.project-heading h1 { margin: 0 0 16px; font-size: clamp(30px, 4vw, 44px); line-height: 1.15; }
-.project-heading > p { max-width: 800px; }
-.project-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 1200px; margin: auto; align-items: start; }
-.project-panel { padding: 28px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card); min-width: 0; }
-.project-panel h2 { margin: 0 0 20px; font-size: 24px; line-height: 1.3; }
-.project-panel h3 { margin: 20px 0 12px; font-size: 18px; }
-.project-panel fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
-.project-panel label { display: block; margin: 16px 0; font-weight: 700; }
-.project-panel input, .project-panel textarea, .project-panel select {
-  display: block; width: 100%; margin-top: 8px; padding: 12px; min-height: 48px;
-  border: 1px solid var(--color-border); border-radius: var(--radius-control);
-  background: var(--color-surface); color: var(--color-text); font: inherit;
+/* Project pages share the account dashboard's width, palette and controls. */
+.projects-shell { --control-border: var(--color-border); min-width: 0; }
+.identity-shell.projects-shell { max-width: 1120px; margin-inline: auto; }
+.project-nav { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
+.identity-shell .project-nav-link {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 10px 16px;
+  border-radius: 12px; border: 1px solid var(--color-border); background: var(--color-surface);
+  color: var(--brand-accent-hover); text-decoration: none; font-size: 14px; font-weight: 600;
 }
-.project-panel textarea { min-height: 110px; resize: vertical; }
-.project-panel :is(button, input, select, textarea):focus-visible { outline: 3px solid var(--brand-focus); outline-offset: 3px; }
+.identity-shell .project-nav-link[aria-current='page'] { border-color: var(--brand-accent); background: color-mix(in srgb, var(--brand-accent) 8%, white); }
+.project-heading { margin: 0 0 32px; }
+.project-list-heading { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.project-list-heading > div { min-width: 0; }
+.project-list-heading > button { flex-shrink: 0; }
+.project-heading h1 { margin: 0 0 14px; font: 400 clamp(32px, 4vw, 46px)/1.15 var(--font-editorial); letter-spacing: -.025em; overflow-wrap: anywhere; }
+.project-heading > p, .project-heading-intro { max-width: 760px; color: var(--color-muted); }
+.project-heading-intro { margin: 0; }
+.project-heading .identity-eyebrow { color: var(--brand-success); }
+.project-heading-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.project-directory, .project-columns { display: grid; gap: 24px; align-items: start; }
+.project-directory-admin { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+.project-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.project-columns:has(> .project-panel:only-child) { grid-template-columns: 1fr; }
+.project-panel {
+  padding: 28px; background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: 18px; min-width: 0; box-shadow: 0 4px 20px rgb(23 23 20 / 2%);
+}
+.project-panel h2 { margin: 0 0 18px; color: var(--brand-accent-hover); font-size: 23px; line-height: 1.3; letter-spacing: -.02em; }
+.project-panel h3 { margin: 24px 0 12px; font-size: 18px; color: var(--brand-accent-hover); }
+.project-panel > p:not(.project-prose) { color: var(--color-muted); }
+.project-panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.project-panel-heading h2 { margin: 0; }
+.project-count { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; min-height: 32px; padding: 4px 10px; border-radius: 20px; color: var(--brand-accent-hover); background: color-mix(in srgb, var(--brand-accent) 9%, white); font-size: 14px; font-weight: 700; }
+.project-panel fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.project-panel label { display: block; margin: 18px 0; font-weight: 600; font-size: 14px; color: var(--brand-accent-hover); }
+.project-panel input, .project-panel textarea, .project-panel select {
+  display: block; width: 100%; min-width: 0; margin-top: 8px; padding: 13px 16px; min-height: 50px;
+  border: 1px solid color-mix(in srgb, var(--brand-accent) 22%, var(--color-border)); border-radius: 12px;
+  background: color-mix(in srgb, var(--brand-paper) 35%, var(--color-surface)); color: var(--color-text);
+  font: 400 16px/1.4 var(--font-sans); accent-color: var(--brand-accent);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.project-panel :is(input, textarea):hover { border-color: var(--brand-accent); }
+.project-panel textarea { min-height: 120px; resize: vertical; }
+.project-panel select:not([multiple]) {
+  appearance: none; padding-right: 44px; border-color: var(--brand-accent); background-color: var(--brand-accent); color: white; font-weight: 600;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='white' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 16px center;
+}
+.project-panel select option { background: var(--color-surface); color: var(--color-text); }
+.project-panel select[multiple] { padding: 8px; }
+.project-panel select[multiple] option { padding: 10px 12px; border-radius: 6px; margin: 3px 0; }
+.project-panel select[multiple] option:checked { background: var(--brand-accent); color: white; }
+.project-panel :is(button, input, select, textarea):focus-visible, .project-nav a:focus-visible { outline: 3px solid var(--brand-focus); outline-offset: 3px; }
+.project-panel :is(input, textarea):focus-visible { box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand-accent) 10%, transparent); }
 .project-panel button:disabled { opacity: .6; cursor: default; }
 .project-panel form + form { border-top: 1px solid var(--color-border); margin-top: 28px; padding-top: 8px; }
-.project-list { list-style: none; padding: 0; margin: 0; }
-.project-list > li { padding: 16px 0; border-bottom: 1px solid var(--color-border); overflow-wrap: anywhere; }
-.project-list > li:last-child { border-bottom: 0; }
+.project-list { display: grid; gap: 14px; list-style: none; padding: 0; margin: 20px 0 0; }
+.project-list > li { padding: 20px; border: 1px solid var(--color-border); border-radius: 12px; background: color-mix(in srgb, var(--brand-paper) 75%, white); overflow-wrap: anywhere; min-width: 0; }
 .project-list h3:first-child { margin-top: 0; }
+.project-collection .project-list { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); margin: 0; }
+.project-collection .project-list > li { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.project-collection .project-list :is(h3, p) { margin: 0; }
+.project-collection h3 { width: 100%; font-size: 21px; line-height: 1.35; }
+.identity-shell .project-collection h3 a { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; text-decoration: none; color: var(--brand-accent-hover); }
+.project-collection h3 a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.project-collection h3 a span { flex-shrink: 0; }
 .project-prose { white-space: pre-wrap; overflow-wrap: anywhere; }
-.project-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; background: var(--color-bg); font-size: 14px; }
-.project-wide { max-width: 1200px; margin: 24px auto; }
-.project-text-button { border: 0; background: none; padding: 10px; color: var(--brand-accent); font: inherit; text-decoration: underline; cursor: pointer; }
-.projects-shell > :is(.identity-error, .identity-notice) { max-width: 1200px; margin-inline: auto; }
-@media (max-width: 780px) {
-  .project-columns { grid-template-columns: 1fr; }
-  .project-panel { padding: 20px; }
-  .projects-shell { padding: 20px 16px 48px; }
-  .project-record .identity-actions { flex-direction: column; align-items: stretch; }
+.project-collection .project-prose { color: var(--color-muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.project-collection .project-list > li > p:last-child:not(.project-prose) { padding-top: 4px; font-size: 13px; color: var(--color-muted); }
+.project-badge { display: inline-block; padding: 5px 10px; border-radius: 20px; background: color-mix(in srgb, var(--brand-success) 9%, white); color: var(--brand-success); font-size: 12px; font-weight: 700; }
+.project-empty { padding: 24px; border: 1px dashed var(--color-border); border-radius: 12px; background: var(--brand-paper); }
+.project-wide { margin-top: 24px; }
+.project-administration { grid-column: 1 / -1; }
+.project-danger { margin-top: 28px; padding: 20px; border: 1px solid color-mix(in srgb, var(--brand-error) 25%, var(--color-border)); border-radius: 12px; background: color-mix(in srgb, var(--brand-error) 3%, white); }
+.project-danger h3 { margin-top: 0; color: var(--brand-error); }
+.project-danger .identity-secondary { color: var(--brand-error); border-color: color-mix(in srgb, var(--brand-error) 35%, var(--color-border)); }
+.project-text-button { border: 1px solid color-mix(in srgb, var(--brand-accent) 20%, var(--color-border)); border-radius: 8px; background: var(--color-surface); padding: 8px 12px; margin: 4px 0 4px 8px; color: var(--brand-accent); font: 600 13px/1.4 var(--font-sans); cursor: pointer; }
+.project-record .identity-actions { gap: 10px; align-items: center; }
+.projects-shell > :is(.identity-error, .identity-notice) { margin-bottom: 24px; }
+@media (max-width: 800px) {
+  .project-directory-admin, .project-columns { grid-template-columns: 1fr; }
+  .project-list-heading { align-items: flex-start; flex-direction: column; gap: 20px; }
+  .project-panel { padding: 22px; }
+  .project-heading { margin-bottom: 24px; }
+  .project-nav { gap: 8px; }
 }
+@media (max-width: 480px) {
+  .project-list > li { padding: 16px; }
+  .project-record .identity-actions { flex-direction: column; align-items: stretch; }
+  .project-heading-actions { align-items: stretch; }
+}
+@media (prefers-reduced-motion: reduce) { .project-panel :is(input, textarea, select) { transition: none; } }
