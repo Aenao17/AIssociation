@@ -157,8 +157,12 @@
 - Human direction: build the agreed research form with simple syntax and no new
   inline code comments. AI implementation assistance supersedes the earlier
   independent-feature reservation; a different independent feature is needed.
-- Changes: public `/research`, platform-only `/admin/research`, bounded validated
-  API, Flyway V3, optional written/contact fields, and idempotent submission retry.
+- Implementation: implemented the questionnaire, backend validation, database
+  persistence, and administrator response viewer. Added tests for submissions,
+  validation, duplicate prevention, and access restrictions. Verified the complete
+  workflow locally with PostgreSQL.
+- Delivered pages: public `/research` and platform-only `/admin/research`, with
+  Flyway V3, optional written/contact fields, and idempotent submission retry.
 - Verification: Maven verify passed 49 tests; frontend passed 33 tests, lint/type
   checks and production build. Browser submission persisted to isolated PostgreSQL
   17; local HTTP checks verified 401/403/200 read access and no duplicate on retry.

@@ -135,6 +135,21 @@ No production users or passwords are seeded by these migrations.
 Account/project deletion is not added as a workflow; V2 domain FKs retain their
 default restrictive behavior except the explicit membership-reference SET NULL.
 
+## Research response storage
+
+Migration owner: Gabriel. V3 creates `research_responses`:
+
+| Field | Type | Constraints / purpose |
+| --- | --- | --- |
+| id | UUID | Primary key; client-generated submission identifier prevents duplicate retries |
+| answers | TEXT | Required; stores the validated questionnaire answers as JSON |
+| submitted_at | TIMESTAMP WITH TIME ZONE | Required; server-generated submission time |
+
+The `(submitted_at, id)` index supports response listing. Research responses have
+no account or association foreign key because the questionnaire accepts anonymous
+submissions. Field lengths, allowed choices and selection limits are validated by
+the API before insertion.
+
 ## Migration index
 
 | Version | File | Owner | Dependencies / status |

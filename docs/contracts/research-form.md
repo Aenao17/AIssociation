@@ -1,6 +1,9 @@
 # Research questionnaire
 
-Owner: Gabriel. This feature is AI-assisted, including its implementation and tests.
+Owner: Gabriel. Designed and implemented the research questionnaire, submission API,
+and administrator response viewer with Codex assistance.
+
+This feature is AI-assisted, including its implementation and tests.
 The earlier reservation as an independently written feature no longer applies;
 Gabriel must select another feature for that assessment requirement.
 
