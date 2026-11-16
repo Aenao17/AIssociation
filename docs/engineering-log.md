@@ -1,5 +1,155 @@
 # Engineering evidence log
 
+## 16 November 2026 — Yasmine completion audit
+
+- Reviewed the current source, routes, event/profile schemas, shared permissions,
+  DTOs, recorded tests and team-plan deliverables. Core FR-10/FR-11 code exists;
+  registration detail integration is still a notice, and final delivery includes
+  unfinished real-user research, team decisions and validation. Wrote the explicit
+  completion audit and owner UX-feedback register; corrected stale homepage-feed
+  wording in the plan. Owner feedback is not claimed as independent user research.
+- Added a real project browser scenario: administrator API creates a project;
+  appointed manager UI creates/publishes two events; unrelated manager cancel is
+  HTTP 403; public association/date filters, list/agenda and association feed agree.
+  Anonymous contexts now retain each test's viewport for actual mobile coverage.
+- Current expanded Playwright run: **4 passed** (standalone/project on Desktop and
+  Pixel 7), 21.2s, real local UI/API and isolated H2 file. App/e2e TypeScript,
+  scoped ESLint, test-file formatting and production build pass. No backend source
+  changed; reviewed the earlier 57-test passing report rather than claiming a new run.
+- Node remains 22.12, so UI unit execution is still blocked; Docker/psql unavailable,
+  so no PostgreSQL verification. Registration integration, actual usability sessions,
+  migration/profile/lifecycle agreement, hosted checks and human assessment evidence
+  remain explicit. No extra core page was identified as missing. No commit/deploy;
+  temporary verification servers stopped and original lockfile edit preserved.
+
+## 16 November 2026 — Arrow navigation links
+
+- Added shared BackLink with a decorative left-arrow SVG, softly tinted terracotta
+  surface, rounded border, hover feedback and visible keyboard focus. Kept existing
+  text labels and explicit destinations. Applied to public event/association Home
+  and return links, event workspace return and workspace-to-account navigation.
+  Minimum 44px target; hover motion respects reduced-motion preferences.
+- Frontend TypeScript, touched-file ESLint and formatting passed. Cosmetic change;
+  no business logic, authentication or history behavior changed, no tests added.
+
+## 16 November 2026 — Dedicated discovery page
+
+- At Yasmine's request, removed the embedded event feed from the homepage. The
+  landing retains its introduction, Discover events/Explore associations links
+  and header account actions. Discovery/list/agenda remain at /events; association
+  feeds remain on public profiles. Homepage no longer fetches discovery data.
+- Updated route documentation to match the simpler landing page.
+
+## 16 November 2026 — Homepage account navigation
+
+- Moved sign-in/create-account actions into an accessible header navigation: outlined
+  Sign in, filled Create account; signed-in users see My account. Hero retains
+  discovery/association actions. Shared BrandHeader accepts optional actions, so
+  other pages retain their existing header. Mobile uses the brand symbol and compact
+  44px-high controls with no hidden menu or extra tap for account access.
+- TypeScript, touched-file ESLint/formatting and production build passed (existing
+  bundle warning). Browser check verified header alignment/no horizontal overflow
+  at 320/390/720/1365px and working sign-in/registration navigation. Public API data
+  was intercepted for this layout check; no real authentication change is claimed.
+
+## 16 November 2026 — Yasmine's visual refinements
+
+- User requested matching dropdown/button colors, subtly richer fields, restrained
+  text accents and aligned discovery content. Updated event/identity styles and
+  homepage shell: centered shared-width discovery panel, equal-width responsive
+  filter columns, terracotta selects, warm input surfaces, rounded controls,
+  visible focus states, selected-view tint, accent headings and green date text.
+  Scoped hero action centering to the hero so discovery controls align with its content.
+- Frontend TypeScript and production build passed (existing bundle warning).
+  Inspected desktop/mobile screenshots with synthetic intercepted event data;
+  desktop discovery centered at 880px and mobile had no horizontal overflow.
+  These are implementation checks, not real-user usability findings. No business
+  logic or lockfile edit; no tests added for this reversible style change.
+
+## 16 November 2026 — Yasmine's complete local FR-10/FR-11 slice
+
+- Human direction: implement Yasmine's entire assigned workflow without further
+  questions. All work below is AI-assisted; no independent feature or real-user
+  usability findings are claimed. Codex produced code/docs/tests; Yasmine's review,
+  explanation and actual corrections remain required.
+- Added V3 event/profile persistence, event DTO/service/private and public APIs;
+  draft/edit/publish/cancel/complete, strict standalone-admin/project-manager checks,
+  live membership enforcement, scoped project FK, deadline/timezone validation,
+  safe published-capacity rules and shared discovery filters/pagination.
+- Added organizer editor/profile panel, homepage/public discovery, event details,
+  association feeds and an agenda using the same records/query as list view. UTC
+  schedule/filter inputs are explicit; public dates show the selected IANA timezone.
+  No duplicate registration/attendance, recruitment, account or messaging module.
+- V3 is a local migration allocation to reconcile with Raul before shared use.
+  Profile presentation editing split requires Gabriel review; event registration
+  slot and persisted status/deadline/capacity/row-lock contract handed off in docs
+  for Denisa. No teammate approval or external message is claimed.
+- Added/updated YASMINE_IMPLEMENTATION.md, event API contract, UX flow/wireframes,
+  traceability, physical ERD/migration index, README and event verification runbook.
+  Existing project V1->V2 migration test now explicitly targets V2, so later
+  migrations do not invalidate its one-migration assertion.
+- Verification: **57 backend tests pass**, zero failures/errors/skips: existing
+  45 plus 3 public association and 9 event workflow tests. Fresh V1-V3 H2 SQL also
+  passed independently. H2 V2->V3 upgrade retains existing association identity.
+- Backend environment: JDK 21 with --release 17; Maven 3.10.0 offline. Ordinary
+  compilation hits a sandbox ZipFS archive-close AccessDenied error. Copied the
+  pre-existing .m2 cache into ignored workspace .maven/repository (no downloads),
+  compiled main and test sources together with -proc:none via an ignored javac
+  argument file; class files were emitted with no source diagnostics despite the
+  archive-close exception. Then ran Maven surefire:test directly using that cache
+  and process-local lock factory. Full passing output: Backend/target/events-final-tests.log.
+- **Two Playwright workflows pass** (desktop and Pixel 7) against running real
+  local UI/API/H2 file persistence. Covered create draft, anonymous draft privacy,
+  edit capacity, direct publication, public list/agenda/association feed and direct
+  detail route. Separate anonymous browser context; synthetic fixture accounts only.
+  Inspected mobile agenda and desktop association screenshots in Frontend/test-results.
+- Frontend app/e2e TypeScript checks, touched-file ESLint/Prettier, production
+  Vite build and whitespace diff check pass. Large bundle warning remains.
+  Node 22.12 vs required 26; preserve-symlinks flags avoid sandbox CLI path failure.
+- Vitest attempt with inherited preservation flags/threads gets past initial
+  resolution failure but jsdom's Undici requires unavailable createZstdDecompress
+  on Node 22.12. Zero unit tests executed; do not claim a unit pass. No runtime
+  dependency or lockfile change was made to work around this mismatch.
+- PostgreSQL not verified: no Docker/PostgreSQL executable available. Browser
+  fixture used only Backend/target/events-browser-db, never the application DB.
+  No hosted verification or deployment. Test servers were stopped after checks.
+- Read-only .git still prevents branch creation. All changes uncommitted on main;
+  original Frontend/package-lock.json edit preserved. No push/merge/deploy or
+  global installations/settings. Next: review defaults, reconcile V3 with Raul,
+  integrate Denisa's real registration and run PostgreSQL/hosted/Node-26 checks.
+
+## 16 November 2026 — Yasmine's public association foundation
+
+- Human direction: inspect the current checkout, use the delivery plan and begin
+  Yasmine's scope without further questions. Inspected README, routes, shared
+  identity/project contracts and authorization helpers, migrations and tests.
+- Added public association GET list/detail with an ID/name/slug DTO, anonymous
+  directory/profile pages and homepage navigation. Added three backend privacy/
+  access tests and five frontend tests. No migration, profile administration or
+  registration implementation was added.
+- Added the Yasmine work-package plan and public/event handoff in docs/plans and
+  docs/contracts: current state, requirement mapping, proposed wireframes, event
+  DTO/API/schema, unallocated migration and unresolved team decisions.
+- This work is AI-assisted. Yasmine's independent feature remains unassigned;
+  Gabriel's research form is excluded. No user findings, teammate approvals or
+  human review are claimed. Tool: Codex; exact model belongs in session metadata.
+- Git: main had an existing Frontend/package-lock.json edit, preserved. Branch
+  creation failed because .git is read-only. Changes remain uncommitted; no
+  commit, push, merge, deploy, global configuration change or external message.
+- Passed: frontend TypeScript tsc --noEmit, ESLint and Prettier on the four
+  touched TS/TSX files, production Vite build and git diff --check. Used existing
+  local tools with Node --preserve-symlinks --preserve-symlinks-main. Node is
+  22.12.0 versus requested 26; build reports the large-bundle warning.
+- Blocked: Vitest fails before executing tests with EPERM resolving the Windows
+  user directory and worker startup; zero tests ran. No browser/hosted checks ran.
+- Backend offline verify attempted with existing Maven 3.10.0/JDK 21, Java 17
+  target. IdeaProjects cache lacks Surefire 3.5.6. The .m2 cache reaches compilation
+  but fails opening micrometer-commons-1.17.2.jar. No backend tests ran. A prior
+  cache lock failure was avoided using Maven's process-local lock factory.
+- Next: coordinate event migration allocation with Raul and event edge cases with
+  Denisa, then implement standalone draft → edit → publish → public detail.
+  Rerun backend/UI tests in a working environment before claiming acceptance.
+
 ## 15 November 2026 — accounts/current-user slice
 
 - Owner: Gabriel. Code and documentation prepared with Codex assistance; student

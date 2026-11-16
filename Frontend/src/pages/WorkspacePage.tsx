@@ -5,6 +5,7 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 
 import { ApiError } from '../auth/client';
 import { useAuth } from '../auth/useAuth';
+import BackLink from '../components/BackLink';
 import BrandHeader from '../components/BrandHeader';
 import MembershipPanel from '../workspaces/MembershipPanel';
 import type { Workspace } from '../workspaces/types';
@@ -100,10 +101,13 @@ function WorkspaceContent({ slug }: { slug: string }): ReactElement {
                   <Link className="identity-primary" to={`/workspaces/${encodeURIComponent(slug)}/projects`}>
                     Projects &amp; recruitment
                   </Link>
+                  <Link className="identity-secondary" to={`/workspaces/${encodeURIComponent(slug)}/events`}>
+                    Events &amp; public profile
+                  </Link>
                 </>
               )}
               <div className="identity-actions">
-                <Link to="/account">Back to my account</Link>
+                <BackLink to="/account">Back to my account</BackLink>
                 <button
                   type="button"
                   className="identity-secondary"

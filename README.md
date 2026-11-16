@@ -10,8 +10,9 @@ UBB student association event management application — Team Stucanii.
 - `compose.yaml`: local PostgreSQL and an optional containerized backend.
 
 The application provides accounts, association workspaces, membership administration,
-projects, recruitment, reporting hierarchies and a public research questionnaire. Event/task/messaging workflows
-remain separate work packages. See [the identity contract](docs/contracts/identity-and-current-user.md)
+projects, recruitment, reporting hierarchies, events, public profiles, discovery
+and an agenda calendar. Registration/attendance, tasks and messaging remain separate
+work packages. See [the identity contract](docs/contracts/identity-and-current-user.md)
 and [the project contract](docs/contracts/projects-and-reporting.md).
 
 ## Prerequisites
@@ -162,6 +163,31 @@ Use the shared `BrandHeader`, `src/theme/brand.css` tokens, and semantic theme
 variables for new screens. Run `npm run brand:sync` from `Frontend/` after editing
 the source kit; commit synchronized assets with the source changes. Production
 builds use the checked-in frontend copies and require no branding tools.
+
+## Public association discovery
+
+From `/home`, choose **Explore associations** to open `/associations`, then an
+association's public identity page at `/associations/{slug}`. These pages read
+persisted association names/slugs without requiring sign-in. They do not expose
+member rosters or grant workspace access. Profiles show public description, website
+and published events from the same discovery API used by the platform listing.
+
+From `/home`, choose **Discover events** to browse at `/events`; switch between list and agenda calendar
+while retaining association/UTC-date filters. Public details are at `/events/{id}`.
+From an association workspace, open **Events & public profile** to create, edit
+and publish drafts without approval. Administrators manage standalone events;
+active project managers manage events for their own projects. The same screen
+lets administrators edit public presentation fields. Registration/attendance
+remain Denisa's integration; the public page does not offer a fake registration.
+
+Flyway V3 adds events/public-profile fields without modifying V1/V2. Reconcile its
+local allocation with Raul before shared application. See the contract for recorded
+lifecycle, deadline, timezone and capacity defaults.
+
+See [Yasmine's implementation sequence and UX flow](docs/plans/yasmine-work-package.md)
+and [the public/event API handoff](docs/contracts/events-and-public-discovery.md).
+Checks and demonstration: [Yasmine's guide](YASMINE_IMPLEMENTATION.md) and
+[event verification instructions](docs/testing-events.md).
 
 ## Association workspaces
 

@@ -1,0 +1,25 @@
+.public-associations {
+  max-width: 960px;
+  margin-inline: auto;
+}
+
+.public-associations nav {
+  margin-bottom: 1.5rem;
+}
+
+.public-association-list {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+}
+
+.public-association-list a {
+  display: block;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  color: var(--brand-accent);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}

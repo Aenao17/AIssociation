@@ -292,6 +292,7 @@ class ProjectWorkflowTests {
             v1.migrate();
             jdbc.sql("INSERT INTO " + quotedSchema + ".app_users (id, display_name, email, password_hash, created_at) VALUES (?, ?, ?, ?, ?)")
                     .params(UUID.randomUUID(), "Retained", "upgrade@example.test", "synthetic", Timestamp.from(Instant.now())).update();
+            // This test owns the V1 -> V2 upgrade; later feature migrations have their own checks.
             var latest = Flyway.configure().dataSource(dataSource).schemas(schema).defaultSchema(schema).target("2").load();
             assertEquals(1, latest.migrate().migrationsExecuted);
             latest.validate();

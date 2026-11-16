@@ -8,6 +8,42 @@
   border-bottom: 1px solid var(--color-border);
   padding-bottom: var(--space-6);
 }
+.brand-header-with-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.homepage-account-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: auto;
+}
+.identity-shell .homepage-signin {
+  border-color: var(--brand-accent);
+  color: var(--brand-accent);
+}
+.homepage-account-nav a {
+  white-space: nowrap;
+}
+@media (max-width: 760px) {
+  .brand-header-with-actions {
+    gap: var(--space-3);
+  }
+  .brand-header-with-actions .brand-home-link img {
+    width: 42px;
+  }
+  .homepage-account-nav {
+    gap: var(--space-2);
+  }
+  .homepage-account-nav :is(.identity-primary, .identity-secondary) {
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}
 .brand-home-link {
   display: inline-flex;
   align-items: center;
