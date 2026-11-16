@@ -36,6 +36,9 @@ const Home: React.FC = () => {
                 </>
               )}
             </div>
+            <p className="identity-help">
+              <Link to="/research">Help shape AIssociation: share your experience</Link>
+            </p>
           </section>
         </main>
       </IonContent>

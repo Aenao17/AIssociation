@@ -1,7 +1,7 @@
 ﻿# Data model and migration index
 
 Owner/coordinator: Raul. Updated 16 November 2026.
-Physical model below matches V1 and V2 SQL, rather than a future domain proposal.
+Physical model below matches V1, V2 and V3 SQL, rather than a future domain proposal.
 
 ## Relationships
 
@@ -24,6 +24,12 @@ erDiagram
     recruitment_positions ||--o{ project_applications : targets
     app_users ||--o{ project_applications : submits
     association_memberships |o--o{ project_applications : submitted_under
+
+    research_responses {
+        UUID id PK
+        TEXT answers
+        TIMESTAMPTZ submitted_at
+    }
 
     app_users {
         UUID id PK
@@ -125,9 +131,24 @@ are responsibilities, separate from project permissions.
 
 Indexes support association project listing, parent traversal, account team lookup,
 original membership references, project application review and own applications.
-No production users or passwords are seeded by either migration.
+No production users or passwords are seeded by these migrations.
 Account/project deletion is not added as a workflow; V2 domain FKs retain their
 default restrictive behavior except the explicit membership-reference SET NULL.
+
+## Research response storage
+
+Migration owner: Gabriel. V3 creates `research_responses`:
+
+| Field | Type | Constraints / purpose |
+| --- | --- | --- |
+| id | UUID | Primary key; client-generated submission identifier prevents duplicate retries |
+| answers | TEXT | Required; stores the validated questionnaire answers as JSON |
+| submitted_at | TIMESTAMP WITH TIME ZONE | Required; server-generated submission time |
+
+The `(submitted_at, id)` index supports response listing. Research responses have
+no account or association foreign key because the questionnaire accepts anonymous
+submissions. Field lengths, allowed choices and selection limits are validated by
+the API before insertion.
 
 ## Migration index
 
@@ -135,6 +156,7 @@ default restrictive behavior except the explicit membership-reference SET NULL.
 | --- | --- | --- | --- |
 | V1 | [V1__identity_foundation.sql](../Backend/src/main/resources/db/migration/V1__identity_foundation.sql) | Gabriel | Existing identity/session/association foundation; unchanged |
 | V2 | [V2__projects_recruitment_reporting.sql](../Backend/src/main/resources/db/migration/V2__projects_recruitment_reporting.sql) | Raul | Depends on V1; projects, configurable departments/positions, team/reporting and applications; verified locally on H2/PostgreSQL |
+| V3 | [V3__research_responses.sql](../Backend/src/main/resources/db/migration/V3__research_responses.sql) | Gabriel | Public research responses; validated answer JSON as text, no account/association FK; H2 and local PostgreSQL verified |
 | Unallocated | Events, registration, tasks and messages | Respective owners; Raul coordinates | Supply schema dependencies before allocating numbers; no implied reservations here |
 
 Coordinate V2 with other owners before merging/applying across shared environments;
