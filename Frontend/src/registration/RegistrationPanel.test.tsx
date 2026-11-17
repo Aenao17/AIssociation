@@ -118,7 +118,7 @@ describe('RegistrationPanel', () => {
     const request = vi.fn();
     request.mockImplementation(async (_path: string, init?: RequestInit) => {
       if (init?.method === 'POST') {
-        full = true; /
+        full = true;
         throw new ApiError(409, 'EVENT_FULL', 'No places left');
       }
       return full ? mine({ canRegister: false }, { seatsRemaining: 0 }) : mine({}, { seatsRemaining: 1 });

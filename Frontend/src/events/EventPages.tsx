@@ -6,6 +6,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ApiError, apiRequest } from '../auth/client';
 import BackLink from '../components/BackLink';
 import BrandHeader from '../components/BrandHeader';
+import RegistrationPanel from '../registration/RegistrationPanel';
 import '../pages/Identity.css';
 
 import EventDiscovery from './EventDiscovery';
@@ -37,11 +38,6 @@ function Detail({ id }: { id: string }): ReactElement {
   const [event, setEvent] = useState<PublicEvent | null>(null);
   const [error, setError] = useState('');
   const [attempt, setAttempt] = useState(0);
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const timer = window.setInterval(() => setNow(Date.now()), 30000);
-    return () => window.clearInterval(timer);
-  }, []);
   useEffect(() => {
     const controller = new AbortController();
     void apiRequest<PublicEvent>(`/api/public/events/${encodeURIComponent(id)}`, { signal: controller.signal })
@@ -96,15 +92,7 @@ function Detail({ id }: { id: string }): ReactElement {
               </p>
               <p>Capacity: {event.capacity ?? 'Unlimited'}</p>
               <div id="event-registration" data-event-id={event.id} aria-label="Event registration">
-                {event.status === 'CANCELLED' ? (
-                  <p role="status">This event has been cancelled.</p>
-                ) : event.status === 'COMPLETED' ? (
-                  <p>This event has ended.</p>
-                ) : new Date(event.registrationDeadline).getTime() <= now ? (
-                  <p>Registration is closed.</p>
-                ) : (
-                  <p>Registration is not available on this page yet. Check back before the deadline.</p>
-                )}
+                <RegistrationPanel eventId={event.id} status={event.status} />
               </div>
             </article>
           )}

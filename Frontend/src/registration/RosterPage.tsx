@@ -28,7 +28,7 @@ function Content({ slug, eventId }: { slug: string; eventId: string }): ReactEle
 
   useEffect(() => {
     if (!userId) return undefined;
-    let active = true; 
+    let active = true;
     async function load(): Promise<void> {
       try {
         const scope = await request<Workspace>(`/api/workspaces/${encodeURIComponent(slug)}`);
@@ -69,7 +69,7 @@ function Content({ slug, eventId }: { slug: string; eventId: string }): ReactEle
       setNotice(success);
     } catch (failure) {
       setError(registrationErrorText(failure));
-      setAttempt((n) => n + 1); 
+      setAttempt((n) => n + 1);
     } finally {
       setBusyId(null);
     }
