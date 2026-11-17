@@ -17,7 +17,7 @@ interface Props {
 
 interface View {
   availability: Availability;
-  registration: MyRegistration | null; 
+  registration: MyRegistration | null;
 }
 
 interface Message {
@@ -26,7 +26,6 @@ interface Message {
 }
 
 function Panel({ eventId, status }: Props): ReactElement {
-  
   const auth = useContext(AuthContext);
   const request = auth?.request;
   const userId = auth?.user?.id ?? null;
@@ -36,10 +35,10 @@ function Panel({ eventId, status }: Props): ReactElement {
   const [loadError, setLoadError] = useState('');
   const [message, setMessage] = useState<Message | null>(null);
   const [busy, setBusy] = useState(false);
-  const [attempt, setAttempt] = useState(0); 
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    if (terminal) return undefined; 
+    if (terminal) return undefined;
     const controller = new AbortController();
     const id = encodeURIComponent(eventId);
 
@@ -85,7 +84,7 @@ function Panel({ eventId, status }: Props): ReactElement {
       setMessage({ kind: 'success', text: success });
     } catch (failure) {
       setMessage({ kind: 'error', text: registrationErrorText(failure) });
-      setAttempt((n) => n + 1); 
+      setAttempt((n) => n + 1);
     } finally {
       setBusy(false);
     }

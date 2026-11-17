@@ -135,14 +135,14 @@ describe('RosterPage', () => {
     show(auth(request));
     const button = await screen.findByRole('button', { name: 'Cancel registration of Bianca' });
 
-    fireEvent.click(button); 
+    fireEvent.click(button);
     expect(request).not.toHaveBeenCalledWith(`${base}/r1`, { method: 'DELETE' });
 
     fireEvent.click(button);
     expect(await screen.findByText('The registration of Bianca was cancelled.')).toBeInTheDocument();
     expect(confirm).toHaveBeenCalledTimes(2);
     expect(screen.getByTestId('roster-summary')).toHaveTextContent('0 registered');
-    fireEvent.click(screen.getByLabelText('Show cancelled')); 
+    fireEvent.click(screen.getByLabelText('Show cancelled'));
     expect(await screen.findByText('Cancelled by organizer')).toBeInTheDocument();
   });
 

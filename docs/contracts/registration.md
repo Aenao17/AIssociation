@@ -122,3 +122,9 @@ New code lives only in `Frontend/src/registration/`:
    `<Route path="/workspaces/:slug/events/:eventId/roster" element={<RosterPage />} />`.
 
 Tried together on a scratch copy: typecheck, ESLint and all 72 unit tests pass.
+## Integrated entry points
+
+Public event details at `/events/{eventId}` render RegistrationPanel. Organizers
+open **Participants & attendance** from an event in their workspace; the roster
+route is `/workspaces/{slug}/events/{eventId}/registrations`. All roster and
+attendance permissions are enforced by the backend.
