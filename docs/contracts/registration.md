@@ -97,3 +97,28 @@ All responses are `Cache-Control: no-store`; errors are `{code, message, fieldEr
 (immediate confirmation, duplicates, capacity/unlimited, drafts, deadline equality, cancel/release,
 organizer cancel, deadline extension, roster privacy per role, cross-association and
 foreign-id access, idempotent attendance, concurrent last seat, double click, DB constraints).
+
+## Frontend (Denisa)
+
+New code lives only in `Frontend/src/registration/`:
+
+| File | Purpose |
+| --- | --- |
+| `types.ts` | TypeScript mirror of the DTOs above + one readable message per error code |
+| `RegistrationPanel.tsx` | `<RegistrationPanel eventId status />` — seats, register/cancel, sign-in prompt |
+| `RosterPage.tsx` | Organizer roster, check-in/undo, cancel registration (route below) |
+| `Registration.css` | Styles, brand tokens only |
+
+### Integration points in other people's files (not changed by this work; each is a few lines)
+
+1. **Yasmine — `Frontend/src/events/EventPages.tsx`**: inside `<div id="event-registration">` replace the
+   cancelled/ended/closed/"not available yet" conditional with
+   `<RegistrationPanel eventId={event.id} status={event.status} />` (import from `../registration/RegistrationPanel`).
+   The panel prints the same texts for cancelled/ended events, so her existing test still passes, and the
+   page's own 30-second `now` clock is no longer needed.
+2. **Yasmine — `Frontend/src/events/EventWorkspace.tsx`**: next to "View public event" add a link
+   `/workspaces/${slug}/events/${item.event.id}/roster` labelled "Registrations".
+3. **Shared — `Frontend/src/App.tsx`**: add
+   `<Route path="/workspaces/:slug/events/:eventId/roster" element={<RosterPage />} />`.
+
+Tried together on a scratch copy: typecheck, ESLint and all 72 unit tests pass.
