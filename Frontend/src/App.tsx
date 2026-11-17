@@ -6,6 +6,7 @@ import { AuthProvider } from './auth/AuthProvider';
 import PublicAssociationsPage from './discovery/PublicAssociationsPage';
 import { EventDetailPage, EventsPage } from './events/EventPages';
 import EventWorkspace from './events/EventWorkspace';
+import ChatPage from './messaging/ChatPage';
 import AccountPage from './pages/AccountPage';
 import AuthPage from './pages/AuthPage';
 import Home from './pages/Home';
@@ -65,6 +66,7 @@ const App: React.FC = () => (
           <Route path="/register" element={<AuthPage mode="register" key="register" />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/workspaces/:slug" element={<WorkspacePage />} />
+          <Route path="/workspaces/:slug/messages" element={<ChatPage />} />
           <Route path="/workspaces/:slug/projects" element={<ProjectPages />} />
           <Route path="/workspaces/:slug/projects/:projectId" element={<ProjectPages />} />
           <Route path="/workspaces/:slug/projects/:projectId/tasks" element={<ProjectTasksPage />} />

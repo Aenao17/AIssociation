@@ -5,6 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { AuthContext } from '../auth/AuthContext';
 import type { AuthState } from '../auth/AuthContext';
 import { ApiError } from '../auth/client';
+import ChatPage from '../messaging/ChatPage';
 
 import AccountPage from './AccountPage';
 import WorkspacePage from './WorkspacePage';
@@ -33,6 +34,7 @@ function view(auth: AuthState, path = '/workspaces/assoc-a') {
       <MemoryRouter initialEntries={[path]}>
         <Routes>
           <Route path="/workspaces/:slug" element={<WorkspacePage />} />
+          <Route path="/workspaces/:slug/messages" element={<ChatPage />} />
           <Route path="/account" element={<AccountPage />} />
         </Routes>
       </MemoryRouter>
@@ -41,6 +43,22 @@ function view(auth: AuthState, path = '/workspaces/assoc-a') {
 }
 
 describe('association workspace', () => {
+  it('opens the association messaging screen from workspace navigation', async () => {
+    const auth = state();
+    vi.mocked(auth.request).mockImplementation(async (path: string) => {
+      if (path === '/api/workspaces/assoc-a')
+        return { associationId: 'a1', name: 'Association A', slug: 'assoc-a', role: 'MEMBER' };
+      if (path === '/api/associations/a1/conversations') return [];
+      throw new Error(`Unexpected request: ${path}`);
+    });
+    view(auth);
+    const messages = await screen.findByRole('link', { name: 'Messages' });
+    expect(messages).toHaveAttribute('href', '/workspaces/assoc-a/messages');
+    fireEvent.click(messages);
+    expect(await screen.findByRole('heading', { name: 'Messages' })).toBeInTheDocument();
+    await waitFor(() => expect(auth.request).toHaveBeenCalledWith('/api/associations/a1/conversations'));
+  });
+
   it('allows a member to enter without requesting the private member roster', async () => {
     const auth = state();
     vi.mocked(auth.request).mockResolvedValue({

@@ -100,6 +100,9 @@ function WorkspaceContent({ slug }: { slug: string }): ReactElement {
                 <Link className="identity-secondary" to={`/workspaces/${encodeURIComponent(slug)}/events`}>
                   Events &amp; public profile
                 </Link>
+                <Link className="identity-secondary" to={`/workspaces/${encodeURIComponent(slug)}/messages`}>
+                  Messages
+                </Link>
               </nav>
             </>
           )}

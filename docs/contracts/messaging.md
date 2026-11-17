@@ -126,3 +126,10 @@ membership id, nulled on removal), `messages` (identity `seq`, sender, body, tim
 visibility per role, send/poll, outsiders and ADMIN denied team chats, department
 separation, chat does not grant task access, group management, direct uniqueness
 and cross-association isolation, removal/rejoin revocation, cursor paging.
+
+## Interface entry point
+
+Association members open **Messages** from their workspace. The screen route is
+`/workspaces/{slug}/messages`; it resolves the workspace before loading the
+association-scoped conversation API. Shared backend audience checks still control
+which conversations and messages are available.
