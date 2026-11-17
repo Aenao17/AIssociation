@@ -7,10 +7,9 @@ import { MAX_GROUP_NAME_LENGTH, messagingErrorText } from './types';
 import type { Conversation, Participant } from './types';
 
 interface ContactsState {
-  contacts: Participant[] | null; 
+  contacts: Participant[] | null;
   error: string;
 }
-
 
 function useContacts(base: string): ContactsState {
   const { request } = useAuth();

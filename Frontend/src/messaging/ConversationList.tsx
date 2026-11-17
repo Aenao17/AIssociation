@@ -4,7 +4,7 @@ import { groupConversations, previewOf } from './types';
 import type { Conversation } from './types';
 
 interface Props {
-  conversations: Conversation[] | null; 
+  conversations: Conversation[] | null;
   selectedId: string | null;
   onSelect: (conversation: Conversation) => void;
   onNewGroup: () => void;

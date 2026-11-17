@@ -17,7 +17,7 @@ import '../pages/Identity.css';
 import '../events/Events.css';
 import './Messaging.css';
 
-const LIST_REFRESH_MS = 20000; 
+const LIST_REFRESH_MS = 20000;
 
 function Content({ slug }: { slug: string }): ReactElement {
   const { user, request } = useAuth();
@@ -73,7 +73,7 @@ function Content({ slug }: { slug: string }): ReactElement {
   const onUnavailable = useCallback(() => {
     setSelectedId(null);
     setNotice('That conversation is no longer available to you.');
-    setAttempt((n) => n + 1); 
+    setAttempt((n) => n + 1);
   }, []);
   const onLeft = useCallback((id: string) => {
     setConversations((current) => (current ?? []).filter((item) => item.id !== id));
@@ -170,6 +170,6 @@ function Content({ slug }: { slug: string }): ReactElement {
 export default function ChatPage(): ReactElement {
   const { slug } = useParams<{ slug: string }>();
   const { user } = useAuth();
-  
+
   return <Content key={`${slug}:${user?.id}`} slug={slug ?? ''} />;
 }

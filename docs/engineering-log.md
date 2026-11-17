@@ -482,3 +482,16 @@
   also passed all 13 registration tests on PostgreSQL 17 and a V6-to-V7 upgrade
   preserving existing data; no migration SQL was changed.
 - No hosted database changes or production deployment verification are claimed.
+
+## 18 November 2026 — messaging interface integration
+
+- Gabriel prepared Codex-assisted integration fixes on Denisa's PR #16, retaining
+  her chat UI ownership. Merged the validated registration fix commit from PR #15
+  so the stacked branch also includes its build corrections and participant flows.
+- Added `/workspaces/:slug/messages` and a Messages link visible to current
+  workspace members. Added a navigation integration test and formatted chat files.
+  Existing backend audience/permission rules remain unchanged.
+- Verification: 91 frontend tests, production build and complete lint/type/format
+  checks passed. Backend code and all V1–V7 SQL are identical to the validated
+  registration fix (95 backend tests and PostgreSQL registration/upgrade checks).
+- No hosted database mutation, merge to main or production deployment claim.

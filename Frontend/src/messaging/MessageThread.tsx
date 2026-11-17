@@ -9,13 +9,13 @@ import { MAX_MESSAGE_LENGTH, mergeMessages, messagingErrorText } from './types';
 import type { Conversation, Message, MessagePage } from './types';
 
 interface Props {
-  base: string; 
+  base: string;
   conversation: Conversation;
-  onBack: () => void; 
-  onUnavailable: () => void; 
+  onBack: () => void;
+  onUnavailable: () => void;
   onLeft: () => void;
-  onSent: (message: Message) => void; 
-  pollMs?: number; 
+  onSent: (message: Message) => void;
+  pollMs?: number;
 }
 
 function subtitle(conversation: Conversation): string {
@@ -70,7 +70,7 @@ export default function MessageThread({
 
     async function first(): Promise<void> {
       try {
-        const page = await request<MessagePage>(url); 
+        const page = await request<MessagePage>(url);
         if (!active) return;
         setMessages(page.messages);
         setHasOlder(page.hasMore);
@@ -81,7 +81,7 @@ export default function MessageThread({
       } catch (failure) {
         if (!active) return;
         if (failure instanceof ApiError && failure.status === 404) {
-          onUnavailable(); 
+          onUnavailable();
           return;
         }
         setError(messagingErrorText(failure));
@@ -146,7 +146,7 @@ export default function MessageThread({
       onSent(sent);
     } catch (failure) {
       if (failure instanceof ApiError && failure.status === 404) onUnavailable();
-      else setSendError(messagingErrorText(failure)); 
+      else setSendError(messagingErrorText(failure));
     } finally {
       setSending(false);
     }

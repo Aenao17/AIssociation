@@ -4,7 +4,7 @@ export type ConversationType = 'ASSOCIATION' | 'PROJECT' | 'DEPARTMENT' | 'GROUP
 
 export interface Message {
   id: string;
-  seq: number; 
+  seq: number;
   conversationId: string;
   senderUserId: string;
   senderName: string;
@@ -17,7 +17,7 @@ export interface Conversation {
   id: string;
   associationId: string;
   type: ConversationType;
-  title: string; 
+  title: string;
   projectId: string | null;
   projectName: string | null;
   departmentId: string | null;

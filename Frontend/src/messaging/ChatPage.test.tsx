@@ -179,7 +179,7 @@ describe('ChatPage', () => {
     fireEvent.click(await screen.findByRole('button', { name: /Alpha/ }));
     await screen.findByRole('log');
     const send = screen.getByRole('button', { name: 'Send' });
-    expect(send).toBeDisabled(); 
+    expect(send).toBeDisabled();
     fireEvent.change(screen.getByLabelText('Message'), { target: { value: '  Hello team  ' } });
     fireEvent.click(send);
     expect(await within(screen.getByRole('log')).findByText('Hello team')).toBeInTheDocument();

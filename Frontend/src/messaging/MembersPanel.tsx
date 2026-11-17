@@ -7,7 +7,7 @@ import { messagingErrorText } from './types';
 import type { Conversation, Participant } from './types';
 
 interface Props {
-  base: string; 
+  base: string;
   conversation: Conversation;
   onLeft: () => void;
 }
@@ -26,7 +26,7 @@ export default function MembersPanel({ base, conversation, onLeft }: Props): Rea
   const manage = isGroup && conversation.canManageMembers;
 
   useEffect(() => {
-    if (!open) return undefined; 
+    if (!open) return undefined;
     let active = true;
     async function load(): Promise<void> {
       try {
