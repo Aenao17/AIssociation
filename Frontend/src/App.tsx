@@ -12,6 +12,7 @@ import Home from './pages/Home';
 import PlatformAssociationsPage from './pages/PlatformAssociationsPage';
 import WorkspacePage from './pages/WorkspacePage';
 import ProjectPages from './projects/ProjectPages';
+import RosterPage from './registration/RosterPage';
 import ResearchResponsesPage from './research/ResearchResponsesPage';
 import ProjectTasksPage from './tasks/ProjectTasksPage';
 
@@ -57,6 +58,7 @@ const App: React.FC = () => (
           <Route path="/events" element={<EventsPage />} />
           <Route path="/events/:eventId" element={<EventDetailPage />} />
           <Route path="/workspaces/:slug/events" element={<EventWorkspace />} />
+          <Route path="/workspaces/:slug/events/:eventId/registrations" element={<RosterPage />} />
           <Route path="/associations" element={<PublicAssociationsPage />} />
           <Route path="/associations/:slug" element={<PublicAssociationsPage />} />
           <Route path="/login" element={<AuthPage mode="login" key="login" />} />

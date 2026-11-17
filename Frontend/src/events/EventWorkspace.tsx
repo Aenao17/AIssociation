@@ -512,7 +512,12 @@ function Content({ slug }: { slug: string }): ReactElement {
                           </>
                         )}
                         {item.event.status !== 'DRAFT' && (
-                          <Link to={`/events/${item.event.id}`}>View public event</Link>
+                          <>
+                            <Link to={`/events/${item.event.id}`}>View public event</Link>
+                            <Link to={`/workspaces/${encodeURIComponent(slug)}/events/${item.event.id}/registrations`}>
+                              Participants &amp; attendance
+                            </Link>
+                          </>
                         )}
                       </div>
                     </li>

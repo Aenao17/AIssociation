@@ -466,3 +466,19 @@
 - CRUD_MANAGEMENT.md and both contracts document final behavior and limitations.
   Temporary PostgreSQL container/data removed. Work is local and uncommitted;
   human review and independent assessment claims remain outside this contribution.
+
+## 18 November 2026 — registration build fixes and UI integration
+
+- Gabriel reviewed Denisa's PRs #15/#16 and prepared these fixes with Codex
+  assistance. Denisa remains the registration workflow owner.
+- Removed a stray slash that prevented TypeScript compilation; moved the Java
+  registration test from main to test sources; corrected the roster test filename
+  so Vitest discovers it. Formatted the touched registration files.
+- Connected RegistrationPanel to public event details and added the roster route
+  plus organizer Participants & attendance links. Added integration tests for
+  anonymous access and account-only registration/cancellation through event details.
+- Verification: full Java 17 Maven verify passed 95 tests; frontend passed 74 tests,
+  production build and complete lint/type/format checks. The prior isolated review
+  also passed all 13 registration tests on PostgreSQL 17 and a V6-to-V7 upgrade
+  preserving existing data; no migration SQL was changed.
+- No hosted database changes or production deployment verification are claimed.

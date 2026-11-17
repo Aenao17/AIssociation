@@ -104,6 +104,10 @@ describe('event workspace FR-10', () => {
     });
     fireEvent.click(screen.getByRole('button', { name: 'Publish Workshop' }));
     expect(await screen.findByRole('link', { name: 'View public event' })).toHaveAttribute('href', '/events/e1');
+    expect(screen.getByRole('link', { name: 'Participants & attendance' })).toHaveAttribute(
+      'href',
+      '/workspaces/alpha/events/e1/registrations',
+    );
     expect(request).toHaveBeenCalledWith('/api/associations/a1/events/e1/publish', { method: 'POST' });
   });
   it('allows a project manager to select only their permitted projects, with no profile editing', async () => {
