@@ -42,6 +42,23 @@ describe('shared navigation', () => {
     expect(desktop().queryByRole('link', { name: 'Manage associations' })).not.toBeInTheDocument();
   });
 
+  it.each(['/login', '/register', '/login/', '/register?next=events'])(
+    'hides desktop and mobile navigation on %s',
+    (path) => {
+      const { container } = view(null, path);
+      expect(container.querySelector('.site-sidebar')).not.toBeInTheDocument();
+      expect(container.querySelector('.site-mobile-header')).not.toBeInTheDocument();
+      expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
+    },
+  );
+
+  it('removes navigation when opening sign-in from the sidebar', () => {
+    view();
+    fireEvent.click(desktop().getByRole('link', { name: 'Sign in' }));
+    expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Collapse sidebar' })).not.toBeInTheDocument();
+  });
+
   it('keeps workspace tools in the selected association and updates them when switching', () => {
     view(member, '/workspaces/alpha/projects/project-id/tasks');
     expect(desktop().getByRole('link', { name: 'Projects & tasks' })).toHaveAttribute('aria-current', 'page');

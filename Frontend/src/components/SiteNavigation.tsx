@@ -121,7 +121,7 @@ function NavigationLinks({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-export default function SiteNavigation(): ReactElement {
+export default function SiteNavigation(): ReactElement | null {
   const [collapsed, setCollapsed] = useState(false);
   const details = useRef<HTMLDetailsElement>(null);
   const location = useLocation();
@@ -131,6 +131,8 @@ export default function SiteNavigation(): ReactElement {
     details.current.open = false;
     details.current.querySelector('summary')?.focus();
   }
+
+  if (matchPath('/login', location.pathname) || matchPath('/register', location.pathname)) return null;
 
   return (
     <>

@@ -59,7 +59,7 @@ const App: React.FC = () => (
         <div className="site-layout">
           <SiteNavigation />
           <div className="site-content" id="site-content" tabIndex={-1}>
-            <IonRouterOutlet>
+            <IonRouterOutlet animated={false}>
               <Route path="/research" element={<ResearchPage />} />
               <Route path="/home" element={<Home />} />
               <Route path="/events" element={<EventsPage />} />
