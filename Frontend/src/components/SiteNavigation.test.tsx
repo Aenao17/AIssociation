@@ -63,6 +63,24 @@ describe('shared navigation', () => {
     expect(desktop().queryByRole('link', { name: 'Messages' })).not.toBeInTheDocument();
   });
 
+  it('collapses to named links, keeps the state while navigating, and expands again', () => {
+    const { container } = view();
+    const collapse = screen.getByRole('button', { name: 'Collapse sidebar' });
+    expect(collapse).toHaveAttribute('aria-expanded', 'true');
+    fireEvent.click(collapse);
+    expect(container.querySelector('.site-sidebar')).toHaveClass('site-sidebar-collapsed');
+    const expand = screen.getByRole('button', { name: 'Expand sidebar' });
+    expect(expand).toHaveAttribute('aria-expanded', 'false');
+    const events = desktop().getByRole('link', { name: 'Events & calendar' });
+    expect(events).toHaveAttribute('title', 'Events & calendar');
+    fireEvent.click(events);
+    expect(events).toHaveAttribute('aria-current', 'page');
+    expect(container.querySelector('.site-sidebar')).toHaveClass('site-sidebar-collapsed');
+    fireEvent.click(expand);
+    expect(container.querySelector('.site-sidebar')).not.toHaveClass('site-sidebar-collapsed');
+    expect(screen.getByRole('button', { name: 'Collapse sidebar' })).toHaveAttribute('aria-expanded', 'true');
+  });
+
   it('closes the mobile menu on Escape and after selecting a destination', () => {
     const { container } = view();
     const menu = container.querySelector('details')!;

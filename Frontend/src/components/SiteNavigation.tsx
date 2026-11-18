@@ -1,10 +1,48 @@
-import { useRef } from 'react';
+import { IonIcon } from '@ionic/react';
+import {
+  businessOutline,
+  calendarOutline,
+  chatbubblesOutline,
+  chevronBackOutline,
+  chevronForwardOutline,
+  clipboardOutline,
+  createOutline,
+  gridOutline,
+  homeOutline,
+  logInOutline,
+  peopleOutline,
+  personAddOutline,
+  personCircleOutline,
+  settingsOutline,
+} from 'ionicons/icons';
+import { useRef, useState } from 'react';
 import type { ReactElement } from 'react';
 import { Link, matchPath, NavLink, useLocation } from 'react-router-dom';
 
 import { useAuth } from '../auth/useAuth';
 
 import './SiteNavigation.css';
+
+function NavigationLink({
+  to,
+  label,
+  icon,
+  end = false,
+  onNavigate,
+}: {
+  to: string;
+  label: string;
+  icon: string;
+  end?: boolean;
+  onNavigate?: () => void;
+}) {
+  return (
+    <NavLink to={to} end={end} onClick={onNavigate} aria-label={label} title={label}>
+      <IonIcon icon={icon} aria-hidden="true" />
+      <span className="site-nav-link-label">{label}</span>
+    </NavLink>
+  );
+}
 
 function NavigationLinks({ onNavigate }: { onNavigate?: () => void }) {
   const { user } = useAuth();
@@ -17,76 +55,65 @@ function NavigationLinks({ onNavigate }: { onNavigate?: () => void }) {
     <>
       <div className="site-nav-section">
         <span className="site-nav-label">Explore</span>
-        <NavLink to="/home" end onClick={onNavigate}>
-          Home
-        </NavLink>
-        <NavLink to="/events" onClick={onNavigate}>
-          Events &amp; calendar
-        </NavLink>
-        <NavLink to="/associations" onClick={onNavigate}>
-          Associations
-        </NavLink>
-        <NavLink to="/research" onClick={onNavigate}>
-          Share feedback
-        </NavLink>
+        <NavigationLink to="/home" label="Home" icon={homeOutline} end onNavigate={onNavigate} />
+        <NavigationLink to="/events" label="Events &amp; calendar" icon={calendarOutline} onNavigate={onNavigate} />
+        <NavigationLink to="/associations" label="Associations" icon={peopleOutline} onNavigate={onNavigate} />
+        <NavigationLink to="/research" label="Share feedback" icon={createOutline} onNavigate={onNavigate} />
       </div>
       {workspace && (
         <div className="site-nav-section">
           <span className="site-nav-label">{workspace.associationName}</span>
-          <NavLink to={base} end onClick={onNavigate}>
-            Workspace overview
-          </NavLink>
-          <NavLink to={`${base}/projects`} onClick={onNavigate}>
-            Projects &amp; tasks
-          </NavLink>
-          <NavLink to={`${base}/events`} onClick={onNavigate}>
-            Manage events
-          </NavLink>
-          <NavLink to={`${base}/messages`} onClick={onNavigate}>
-            Messages
-          </NavLink>
+          <NavigationLink to={base} label="Workspace overview" icon={gridOutline} end onNavigate={onNavigate} />
+          <NavigationLink
+            to={`${base}/projects`}
+            label="Projects &amp; tasks"
+            icon={clipboardOutline}
+            onNavigate={onNavigate}
+          />
+          <NavigationLink to={`${base}/events`} label="Manage events" icon={calendarOutline} onNavigate={onNavigate} />
+          <NavigationLink to={`${base}/messages`} label="Messages" icon={chatbubblesOutline} onNavigate={onNavigate} />
         </div>
       )}
       {user && user.memberships.length > 0 && (
         <div className="site-nav-section">
           <span className="site-nav-label">Your workspaces</span>
           {user.memberships.map((membership) => (
-            <NavLink
+            <NavigationLink
               key={membership.associationId}
               to={`/workspaces/${encodeURIComponent(membership.associationSlug)}`}
+              label={membership.associationName}
+              icon={businessOutline}
               end
-              onClick={onNavigate}
-            >
-              {membership.associationName}
-            </NavLink>
+              onNavigate={onNavigate}
+            />
           ))}
         </div>
       )}
       {user?.platformAdmin && (
         <div className="site-nav-section">
           <span className="site-nav-label">Platform administration</span>
-          <NavLink to="/admin/associations" onClick={onNavigate}>
-            Manage associations
-          </NavLink>
-          <NavLink to="/admin/research" onClick={onNavigate}>
-            Research responses
-          </NavLink>
+          <NavigationLink
+            to="/admin/associations"
+            label="Manage associations"
+            icon={settingsOutline}
+            onNavigate={onNavigate}
+          />
+          <NavigationLink
+            to="/admin/research"
+            label="Research responses"
+            icon={clipboardOutline}
+            onNavigate={onNavigate}
+          />
         </div>
       )}
       <div className="site-nav-section site-nav-account">
         <span className="site-nav-label">Account</span>
         {user ? (
-          <NavLink to="/account" onClick={onNavigate}>
-            My account
-          </NavLink>
+          <NavigationLink to="/account" label="My account" icon={personCircleOutline} onNavigate={onNavigate} />
         ) : (
           <>
-            <NavLink to="/login" onClick={onNavigate}>
-              Sign in
-            </NavLink>
-            <NavLink to="/register" onClick={onNavigate}>
-              Create account
-            </NavLink>
+            <NavigationLink to="/login" label="Sign in" icon={logInOutline} onNavigate={onNavigate} />
+            <NavigationLink to="/register" label="Create account" icon={personAddOutline} onNavigate={onNavigate} />
           </>
         )}
       </div>
@@ -95,6 +122,7 @@ function NavigationLinks({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 export default function SiteNavigation(): ReactElement {
+  const [collapsed, setCollapsed] = useState(false);
   const details = useRef<HTMLDetailsElement>(null);
   const location = useLocation();
 
@@ -109,11 +137,28 @@ export default function SiteNavigation(): ReactElement {
       <a className="site-skip-link" href={`${location.pathname}${location.search}#site-content`}>
         Skip to content
       </a>
-      <aside className="site-sidebar">
+      <aside className={`site-sidebar${collapsed ? ' site-sidebar-collapsed' : ''}`}>
         <Link className="site-nav-brand" to="/home" aria-label="AIssociation home">
-          <img src="/brand/logo-ink.svg" alt="AIssociation" width="200" height="23" />
+          <img
+            src={collapsed ? '/brand/symbol-ink.svg' : '/brand/logo-ink.svg'}
+            alt="AIssociation"
+            width="200"
+            height="23"
+          />
         </Link>
-        <nav aria-label="Main navigation">
+        <button
+          type="button"
+          className="site-sidebar-toggle"
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          aria-expanded={!collapsed}
+          aria-controls="site-desktop-navigation"
+          onClick={() => setCollapsed(!collapsed)}
+        >
+          <IonIcon icon={collapsed ? chevronForwardOutline : chevronBackOutline} aria-hidden="true" />
+          <span className="site-nav-link-label">Collapse sidebar</span>
+        </button>
+        <nav id="site-desktop-navigation" aria-label="Main navigation">
           <NavigationLinks />
         </nav>
       </aside>
