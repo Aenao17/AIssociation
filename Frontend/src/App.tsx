@@ -3,6 +3,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import { Navigate, Route } from 'react-router-dom';
 
 import { AuthProvider } from './auth/AuthProvider';
+import SiteNavigation from './components/SiteNavigation';
 import PublicAssociationsPage from './discovery/PublicAssociationsPage';
 import { EventDetailPage, EventsPage } from './events/EventPages';
 import EventWorkspace from './events/EventWorkspace';
@@ -14,6 +15,7 @@ import PlatformAssociationsPage from './pages/PlatformAssociationsPage';
 import WorkspacePage from './pages/WorkspacePage';
 import ProjectPages from './projects/ProjectPages';
 import RosterPage from './registration/RosterPage';
+import ResearchPage from './research/ResearchPage';
 import ResearchResponsesPage from './research/ResearchResponsesPage';
 import ProjectTasksPage from './tasks/ProjectTasksPage';
 
@@ -54,26 +56,32 @@ const App: React.FC = () => (
   <AuthProvider>
     <IonApp>
       <IonReactRouter>
-        <IonRouterOutlet>
-          <Route path="/home" element={<Home />} />
-          <Route path="/events" element={<EventsPage />} />
-          <Route path="/events/:eventId" element={<EventDetailPage />} />
-          <Route path="/workspaces/:slug/events" element={<EventWorkspace />} />
-          <Route path="/workspaces/:slug/events/:eventId/registrations" element={<RosterPage />} />
-          <Route path="/associations" element={<PublicAssociationsPage />} />
-          <Route path="/associations/:slug" element={<PublicAssociationsPage />} />
-          <Route path="/login" element={<AuthPage mode="login" key="login" />} />
-          <Route path="/register" element={<AuthPage mode="register" key="register" />} />
-          <Route path="/account" element={<AccountPage />} />
-          <Route path="/workspaces/:slug" element={<WorkspacePage />} />
-          <Route path="/workspaces/:slug/messages" element={<ChatPage />} />
-          <Route path="/workspaces/:slug/projects" element={<ProjectPages />} />
-          <Route path="/workspaces/:slug/projects/:projectId" element={<ProjectPages />} />
-          <Route path="/workspaces/:slug/projects/:projectId/tasks" element={<ProjectTasksPage />} />
-          <Route path="/admin/associations" element={<PlatformAssociationsPage />} />
-          <Route path="/admin/research" element={<ResearchResponsesPage />} />
-          <Route path="/" element={<Navigate to="/home" replace />} />
-        </IonRouterOutlet>
+        <div className="site-layout">
+          <SiteNavigation />
+          <div className="site-content" id="site-content" tabIndex={-1}>
+            <IonRouterOutlet>
+              <Route path="/research" element={<ResearchPage />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/events" element={<EventsPage />} />
+              <Route path="/events/:eventId" element={<EventDetailPage />} />
+              <Route path="/workspaces/:slug/events" element={<EventWorkspace />} />
+              <Route path="/workspaces/:slug/events/:eventId/registrations" element={<RosterPage />} />
+              <Route path="/associations" element={<PublicAssociationsPage />} />
+              <Route path="/associations/:slug" element={<PublicAssociationsPage />} />
+              <Route path="/login" element={<AuthPage mode="login" key="login" />} />
+              <Route path="/register" element={<AuthPage mode="register" key="register" />} />
+              <Route path="/account" element={<AccountPage />} />
+              <Route path="/workspaces/:slug" element={<WorkspacePage />} />
+              <Route path="/workspaces/:slug/messages" element={<ChatPage />} />
+              <Route path="/workspaces/:slug/projects" element={<ProjectPages />} />
+              <Route path="/workspaces/:slug/projects/:projectId" element={<ProjectPages />} />
+              <Route path="/workspaces/:slug/projects/:projectId/tasks" element={<ProjectTasksPage />} />
+              <Route path="/admin/associations" element={<PlatformAssociationsPage />} />
+              <Route path="/admin/research" element={<ResearchResponsesPage />} />
+              <Route path="/" element={<Navigate to="/home" replace />} />
+            </IonRouterOutlet>
+          </div>
+        </div>
       </IonReactRouter>
     </IonApp>
   </AuthProvider>
